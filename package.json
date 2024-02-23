@@ -1,0 +1,31 @@
+{
+    "name": "Baedal-Minjok",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "type": "module",
+    "scripts": {
+        "format": "prettier --write *.js **/*.js",
+        "dev": "nodemon app.js",
+        "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --forceExit",
+        "test:silent": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --silent --forceExit",
+        "test:coverage": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --coverage --forceExit",
+        "test:unit": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest __tests__/unit --forceExit"
+    },
+    "dependencies": {
+        "@jest/globals": "^29.7.0",
+        "@prisma/client": "^5.10.2",
+        "bcrypt": "^5.1.1",
+        "cookie-parser": "^1.4.6",
+        "cross-env": "^7.0.3",
+        "dotenv": "^16.4.5",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.2",
+        "prettier": "^3.2.5",
+        "prisma": "^5.10.2"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "nodemon": "^3.1.0"
+    }
+}
