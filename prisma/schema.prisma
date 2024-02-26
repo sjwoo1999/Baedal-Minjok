@@ -20,7 +20,7 @@ model Users {
 
   restaurant Restaurants[]
   order      Orders[]
-  comment    Comments[]
+  review     Reviews[]
   point Points[]
 
   @@map("Users")
@@ -38,7 +38,7 @@ model Restaurants {
   rate            Int          @map("rate")
 
   order           Orders[]
-  comment         Comments[]
+  review         Reviews[]
   menu            Menus[]
 
   user            Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -91,7 +91,7 @@ model OrderDetails {
   @@map("OrderDetails")
 }
 
-model Comments {
+model Reviews {
   id              Int         @id @default(autoincrement()) @map("id")
   userId          Int         @map("userId")
   restaurantId    Int         @map("restaurantId")
@@ -103,7 +103,7 @@ model Comments {
   user            Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
   restaurant      Restaurants @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
-  @@map("Comments")
+  @@map("Reviews")
 }
 
 
