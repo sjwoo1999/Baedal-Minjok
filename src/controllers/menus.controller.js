@@ -6,7 +6,7 @@ export class MenusController {
     /* 메뉴 생성 */
     createMenu = async (req, res, next) => {
         try {
-            const { restaurantId} = req.params;
+            const { restaurantId } = req.params;
             const { name, price, image, menuInfo } = req.body;
             const userId = req.user;
 
@@ -21,14 +21,14 @@ export class MenusController {
                 return res.status(400).json({ message: '메뉴 설명을 작성하세요.' });
             }
 
-            const menu = await this.menusService.createMenu({
+            const menu = await this.menusService.createMenu(
                 userId,
                 restaurantId,
                 name,
                 menuInfo,
                 price,
                 image
-            })
+            )
 
             return res.status(201).json({ message: `${name}이 등록되었습니다.` });
         } catch (err) {
@@ -86,7 +86,7 @@ export class MenusController {
             if (!menuId) return res.status(401).json({ message: "수정하려는 메뉴의 아이디를 입력하지 않았습니다." });
 
             await this.menusService.updatedMenu(userId, restaurantId, menuId, updatedData);
-            return res.status(201).json({message: "메뉴 수정에 성공하였습니다."});
+            return res.status(201).json({ message: "메뉴 수정에 성공하였습니다." });
         } catch (err) {
             next(err);
         }
@@ -106,7 +106,7 @@ export class MenusController {
 
             await this.menusService.deleteMenu(userId, restaurantId, menuId, password);
 
-            return res.status(201).json({message: "메뉴 삭제에 성공하였습니다."});
+            return res.status(201).json({ message: "메뉴 삭제에 성공하였습니다." });
         } catch (err) {
             next(err);
         }

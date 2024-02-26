@@ -10,7 +10,7 @@ const menusService = new MenusService(menusRepository);
 const menusController = new MenusController(menusService);
 
 /* menu 생성 (사장님) */
-router.post('/owner/:ownerId/restaurant/:restaurantId/menu', authMiddleware, menusController.createMenu);
+router.post('/owner/restaurant/:restaurantId/menu', authMiddleware, menusController.createMenu);
 
 /* menu 전체 조회 */
 router.get('/restaurant/:restaurantId/menus',menusController.findMenus);
