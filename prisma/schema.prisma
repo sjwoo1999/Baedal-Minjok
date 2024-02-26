@@ -53,6 +53,7 @@ model Menus {
   image           String  @map("image")
 
   order Orders[]
+  orderDetail   OrderDetails[]
 
   restaurant      Restaurants   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
@@ -70,6 +71,8 @@ model Orders {
     status        Status        @map("status")
     totalPrice    BigInt        @map("totalPrice")
 
+    orderDetail   OrderDetails[]
+
     user          Users         @relation(fields: [userId], references: [id], onDelete: Cascade)
     restaurant    Restaurants   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
     menu          Menus         @relation(fields: [menuId], references: [id], onDelete: Cascade)
@@ -77,7 +80,19 @@ model Orders {
     @@map("Orders")
 }
 
-model Comments{
+model OrderDetails {
+  id              Int          @id @default(autoincrement()) @map("id")
+  orderId         Int          @map("orderId")
+  menuId          Int          @map("menuId")
+  quantity        Int          @map("quantity")
+
+  order           Orders       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menu            Menus        @relation(fileds: [menuId], references: [id, name], onDelete: Cascade)
+  
+  @@map("OrderDetails")
+}
+
+model Comments {
   id              Int         @id @default(autoincrement()) @map("id")
   userId          Int         @map("userId")
   restaurantId    Int         @map("restaurantId")
