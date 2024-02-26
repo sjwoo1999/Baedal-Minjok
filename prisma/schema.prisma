@@ -59,7 +59,7 @@ model Menus {
 
   restaurant      Restaurants   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
-  @@unique([id, name])
+  @@unique([restaurantId, name])
   @@map("Menus")
 }
 
