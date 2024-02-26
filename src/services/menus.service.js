@@ -28,5 +28,12 @@ export class MenusService {
         return menu;
     }
 
-    updatedMenu = async (userId, restaurantId, menuId, updatedData)
+    updatedMenu = async (userId, restaurantId, menuId, updatedData) =>{
+        const validation = await this.menusRepository.compareUserAndRestaurant(userId, restaurantId);
+        if (!validation) {
+            throw { code: 400, message: "자신의 식당의 메뉴만 수정할 수 있습니다." };
+        }
+
+        
+    }
 }
