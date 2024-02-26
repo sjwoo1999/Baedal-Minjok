@@ -20,7 +20,7 @@ model Users {
 
   restaurant Restaurants[]
   order      Orders[]
-  review    Reviews[]
+  review     Reviews[]
   point Points[]
 
   @@map("Users")
@@ -38,7 +38,7 @@ model Restaurants {
   rate            Int          @map("rate")
 
   order           Orders[]
-  reviews         Reviews[]
+  review         Reviews[]
   menu            Menus[]
 
   user            Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
