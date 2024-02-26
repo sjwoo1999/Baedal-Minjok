@@ -3,13 +3,13 @@ export class MenusService {
         this.menusRepository = menusRepository;
     }
 
-    createMenu = async ( userId, restaurantId, name, menuInfo, price, image ) => {
+    createMenu = async (userId, restaurantId, name, menuInfo, price, image) => {
         const validation = await this.menusRepository.compareUserAndRestaurant(userId, restaurantId);
         if (!validation) {
             throw { code: 400, message: "자신의 식당의 메뉴만 작성할 수 있습니다." };
         }
 
-        const menu = await this.menusRepository.createMenu( restaurantId, name, menuInfo, price, image );
+        const menu = await this.menusRepository.createMenu(restaurantId, name, menuInfo, price, image);
 
         return menu;
     }
@@ -28,12 +28,23 @@ export class MenusService {
         return menu;
     }
 
-    updatedMenu = async (userId, restaurantId, menuId, updatedData) =>{
+    updatedMenu = async (userId, restaurantId, menuId, updatedData) => {
         const validation = await this.menusRepository.compareUserAndRestaurant(userId, restaurantId);
         if (!validation) {
             throw { code: 400, message: "자신의 식당의 메뉴만 수정할 수 있습니다." };
         }
 
-        
+        const menu = await this.menusRepository.updateMenu(restaurantId, menuId, updatedData);
+        return menu;
+    }
+
+    deleteMenu = async(userId, restaurantId, menuId, password)=>{
+        const comparison = await this.menusRepository.comparePassword(userId, password);
+        if(!comparison){
+            throw { code: 400, message: "본인 식당의 메뉴만 삭제가 가능합니다."};
+        }
+
+        const menu = await this.menusRepository.deleteMenu(restaurantId, menuId);
+        return menu;
     }
 }

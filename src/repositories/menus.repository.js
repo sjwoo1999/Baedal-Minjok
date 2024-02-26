@@ -1,6 +1,8 @@
+import bcrypt from 'bcrypt';
+
 export class MenusRepository {
-    constructor(Prisma) {
-        this.prisma = Prisma;
+    constructor(prisma) {
+        this.prisma = prisma;
     }
 
     createMenu = async (restaurantId, name, menuInfo, price, image) => {
@@ -88,6 +90,21 @@ export class MenusRepository {
             }
         })
         return menu;
+    }
+
+    findPassword = async (id, password) => {
+        const writtenPassword = password;
+        const originPassword = await this.prisma.Users.findFirst({
+            where: {
+                id: +id
+            },
+            select: {
+                password: true
+            }
+        })
+        const comparison = await bcrypt.compare(writtenPassword, originPassword);
+
+        return comparison;
     }
 
     updateMenu = async (restaurantId, menuId, updatedata) => {
