@@ -14,6 +14,7 @@ model Users {
   password   String  @map("password")
   address    String  @map("address")
   type       Type    @map("type")
+  token      String? @map("token")@db.Text
 
   restaurant Restaurants[]
   order      Orders[]
@@ -107,10 +108,10 @@ model Comments {
 model Points {
   id  Int @id @default(autoincrement()) @map("id")
   orderId Int? @map("orderId")
-  userId  Int @map("userId")
-  paymentHistory String @map("paymentHistory") @db.Text
-  point Float @map("point")
-  createdAt DateTime @map("createdAt")
+  userId  Int  @map("userId")
+  paymentHistory String? @default("가입 포인트 충전") @map("paymentHistory")
+  point Float @default(1000000) @map("point")
+  createdAt DateTime  @default(now()) @map("createdAt")
 
   user         Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
   order        Orders?      @relation(fields: [orderId], references: [id], onDelete: Cascade)
