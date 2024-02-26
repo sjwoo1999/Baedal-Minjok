@@ -8,112 +8,117 @@ datasource db {
 }
 
 model Users {
-  id         Int     @id @default(autoincrement()) @map("id") 
-  email      String  @unique @map("email")  
-  userName   String  @map("userName")
-  password   String  @map("password")
-  address    String  @map("address")
-  type       Type    @map("type")
+
+  id             Int            @id @default(autoincrement()) @map("id") 
+  email          String         @unique @map("email")  
+  userName       String         @map("userName")
+  password       String         @map("password")
+  address        String         @map("address")
+  type           Type           @map("type")
+  token          String?        @map("token")@db.Text
+
 
   restaurant Restaurants[]
   order      Orders[]
-  comment    Comments[]
+  review     Reviews[]
   point Points[]
 
   @@map("Users")
 }
 
 model Restaurants { 
-  id              Int       @id @default(autoincrement()) @map("id")    
-  userId          Int       @map("userId")
-  name            String    @map("name")
-  callNumber      String    @map("callNumber")
-  kind            Kind      @map("kind")
-  restaurantInfo  String    @map("resaurantInfo")  @db.Text
-  sales           BigInt    @map("sales")
-  orderCount      Int       @map("orderCount")
-  rate            Int       @map("rate")
+  id              Int            @id @default(autoincrement()) @map("id")    
+  userId          Int            @map("userId")
+  name            String         @map("name")
+  callNumber      String         @map("callNumber")
+  kind            Kind           @map("kind")
+  restaurantInfo  String         @map("resaurantInfo")  @db.Text
+  sales           BigInt         @map("sales")
+  orderCount      Int            @map("orderCount")
+  rate            Int            @map("rate")
 
   order           Orders[]
-  comment         Comments[]
+  review          Reviews[]
   menu            Menus[]
 
-  user            Users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            Users          @relation(fields: [userId], references: [id], onDelete: Cascade)
   
 
   @@map("Restaurants")
 }
 
 model Menus {
-  id              Int     @id @default(autoincrement()) @map("id")
-  restaurantId    Int     @map("restaurantId")
-  name            String  @map("name")
-  menuInfo        String  @map("menuInfo")
-  price           Float  @map("price")
-  image           String  @map("image") @default("https://i.namu.wiki/i/9FNzjL-w9DUtZ9jw53P1ZkMUu9CPk-GqCbPQnaX-WxIMghYW3N8BJ6EI89DL-2-11r5XzIDZIvCNb1gwbWgClQ.webp")
+  id              Int             @id @default(autoincrement()) @map("id")
+  restaurantId    Int             @map("restaurantId")
+  name            String          @map("name")
+  menuInfo        String          @map("menuInfo")
+  price           Float           @map("price")
+  image           String          @map("image") @default("https://i.namu.wiki/i/9FNzjL-w9DUtZ9jw53P1ZkMUu9CPk-GqCbPQnaX-WxIMghYW3N8BJ6EI89DL-2-11r5XzIDZIvCNb1gwbWgClQ.webp")
 
-  orderDetail   OrderDetails[]
+  orderDetail     OrderDetails[]
 
-  restaurant      Restaurants   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurant      Restaurants     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
-  @@unique([name, restaurantId])
+  @@unique([restaurantId, name])
   @@map("Menus")
 }
 
 model Orders {
-    id            Int           @id @default(autoincrement()) @map("id")
-    userId        Int           @map("userId")
-    restaurantId  Int           @map("restaurantId")
-    deliveryType  Deliverytype  @map("deliveryType")
-    status        Status        @map("status")
-    totalPrice    BigInt        @map("totalPrice")
-    orderTime     DateTime      @default(now()) @map("orderTime")
+    id            Int             @id @default(autoincrement()) @map("id")
+    userId        Int             @map("userId")
+    restaurantId  Int             @map("restaurantId")
+    deliveryType  Deliverytype    @map("deliveryType")
+    status        Status          @map("status")
+    totalPrice    BigInt          @map("totalPrice")
+    orderTime     DateTime        @default(now()) @map("orderTime")
 
     orderDetail   OrderDetails[]
     point Points[]
-    user          Users         @relation(fields: [userId], references: [id], onDelete: Cascade)
-    restaurant    Restaurants   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+    user          Users           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    restaurant    Restaurants     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
     @@map("Orders")
 }
 
 model OrderDetails {
-  id              Int          @id @default(autoincrement()) @map("id")
-  orderId         Int          @map("orderId")
-  menuId          Int          @map("menuId")
-  quantity        Int          @map("quantity")
+  id              Int             @id @default(autoincrement()) @map("id")
+  orderId         Int             @map("orderId")
+  menuId          Int             @map("menuId")
+  quantity        Int             @map("quantity")
 
-  order           Orders       @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  menu            Menus        @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  order           Orders          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  menu            Menus           @relation(fields: [menuId], references: [id], onDelete: Cascade)
   @@map("OrderDetails")
 }
 
-model Comments {
-  id              Int         @id @default(autoincrement()) @map("id")
-  userId          Int         @map("userId")
-  restaurantId    Int         @map("restaurantId")
-  content         String      @map("content") @db.Text
-  rate            Int         @map("rate")
-  createdAt       DateTime    @default(now()) @map("createdAt")
-  updatedAt       DateTime    @updatedAt @map("updatedAt")
+model Reviews {
+  id              Int             @id @default(autoincrement()) @map("id")
+  userId          Int             @map("userId")
+  restaurantId    Int             @map("restaurantId")
+  content         String          @map("content") @db.Text
+  rate            Int             @map("rate")
+  createdAt       DateTime        @default(now()) @map("createdAt")
+  updatedAt       DateTime        @updatedAt @map("updatedAt")
 
-  user            Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  restaurant      Restaurants @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  user            Users           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  restaurant      Restaurants     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
-  @@map("Comments")
+  @@map("Reviews")
 }
 
 
 model Points {
-  id  Int @id @default(autoincrement()) @map("id")
-  orderId Int? @map("orderId")
-  userId  Int @map("userId")
-  paymentHistory String @map("paymentHistory") @db.Text
-  point Float @map("point")
-  createdAt DateTime @map("createdAt")
 
-  user         Users       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  order        Orders?      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  id              Int             @id @default(autoincrement()) @map("id")
+  orderId         Int?            @map("orderId")
+  userId          Int             @map("userId")
+  paymentHistory  String?         @default("가입 포인트 충전") @map("paymentHistory")
+  point           Float           @default(1000000) @map("point")
+  createdAt       DateTime        @default(now()) @map("createdAt")
+
+  user            Users           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order           Orders?         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
 }
 
 enum Type {
