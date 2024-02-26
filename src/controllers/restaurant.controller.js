@@ -35,6 +35,11 @@ export class RestaurantsController {
             // 1. 입력받은 req의 내용을 가진 json을 사용자가 가져야 한다. -> 맞는 논리인지 확인 필요
             // 2. 입력받은 req의 내용을 가진 json을 업주가 가져야 한다. -> 맞는 논리인지 확인 필요
 
+            // 서비스로 보내줄 애들~
+            // body나 parmas에 적었냐 안 적었냐?
+            // 이런 애들이 서비스에 들어가서 작업을 해도 되는지?
+            // 형태 확인해준다 ~
+
             return res.status(returnCode).json(JSON);
         } catch (err) {
             next(err);

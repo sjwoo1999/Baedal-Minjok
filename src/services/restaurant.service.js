@@ -2,6 +2,8 @@
 // 5.5 Layered Architecture Pattern - Service
 import { RestaurantRepository } from '../repositories/restaurant.repository.js';
 
+// 생성자 작성 필요..
+
 export class RestaurantsService {
     restaurantRepository = new RestaurantRepository();
 
@@ -14,16 +16,16 @@ export class RestaurantsService {
         return { json };
     };
 
-    // POST
+    // POST 여기 매개변수 수정해줘야 함
     orderMenu = async () => {
         // 저장소(Repository)에게 데이터를 요청합니다.
         // Restaurant가 갖고 있는 주문 목록에 들어가서 주문 상태에 접근하도록 해야 한다.
-        const orderedMenu = await this.RestaurantRepository.orderMenu(
+        const orderedMenu = await RestaurantRepository.orderMenu(
             userId,
             restaurantId,
             deliveryType,
             status,
-            // status는 사용되지 않습니다?
+            // status는 사용되지 않습니다? -> 이거 여쭤봐야 함
             totPrice,
             orderTime
         );

@@ -2,9 +2,9 @@
 
 import express from 'express';
 // authMiddleware import 임시 코드
-// 둘 중 어떤 걸 사용해야 할까?
-// 1번) import authMiddleware from '../middlewares/auth/auth.middleware.controller.js';
-// 2번) import authMiddleware from '../middlewares/auth/auth.middleware.service.js';
+// 둘 중 어떤 걸 사용해야 할까? -> 둘 다
+import authMiddleware from '../middlewares/auth/auth.middleware.controller.js';
+import authMiddleware from '../middlewares/auth/auth.middleware.service.js';
 
 // User 요청 처리 컨트롤러 불러오기
 const { RestaurantController } = require('../controllers/restaurant.controller.js');
