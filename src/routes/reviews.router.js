@@ -7,7 +7,6 @@ import { ReviewsServices } from '../services/restaurant.service.js';
 import { ReviewsRepositories } from '../repositories/reviews.repository.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';}
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
-import { RestaurantsController } from '../controllers/restaurant.controller.js';
 const router = express.Router();
 
 const reviewsRepository = new ReviewsRepositories(prisma);
@@ -47,7 +46,9 @@ router.patch(
 
 /** 리뷰 삭제 **/
 router.delete(
-    '/restaurant/:restaurantId/review', authController.authMiddleWare, RestaurantsController.deleteReview
+    '/restaurant/:restaurantId/review',
+    authController.authMiddleWare,
+    reviewsController.deleteReview
 );
 
 export default router;

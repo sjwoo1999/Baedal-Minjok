@@ -25,7 +25,7 @@ export class ReviewsRepositoriy {
     // PATCH
     updateReview = async () => {
         // 저장소(Repository)에게 특정 식당 하나를 요청합니다.
-        const restaurant = await this.RestaurantsRepository.getReviews();
+        const restaurant = await this.ReviewsRepository.getReviews();
     };
 
     // DELETE

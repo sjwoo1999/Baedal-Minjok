@@ -38,7 +38,7 @@ export class ReviewsController {
             // reviewService로 나중에 바꿔줘야 하지 않을까?
             // 로직은 서비스에서 구현하도록 한다.
             // 서비스에서 구현한 함수를 호출할 수 있도록 한다.
-            const review = await this.restaurantService.newReview(userId, restaurantId, content, rate);
+            const review = await this.reviewService.newReview(userId, restaurantId, content, rate);
 
             // 반환 코드 체크해야 한다.
             return res.status(201).json({ message: '리뷰가 정상적으로 등록되었습니다.' });
@@ -98,7 +98,7 @@ export class ReviewsController {
             // 고객님이든 사장님이든 둘 다 상관 없으니 따로 작업할 건 없음
             // 전달받은 리뷰 id를 통해 리뷰에 접근하고, 해당 리뷰를 반환한다.
 
-            const review = await this.restaurantService.findOneReview(restaurantId, reviewId);
+            const review = await this.reviewService.findOneReview(restaurantId, reviewId);
             // review id .. auto increment?
             // 어떤 걸 기준으로 하느냐에 따라서 restaurantId와 reviewId 두 개 모두를 매개변수로 전달할 수도 있고,
             // reviewId 하나만 매개변수로 전달하는 경우도 발생할 수 있다.
@@ -144,7 +144,7 @@ export class ReviewsController {
             // 현재 고객님이 리뷰를 작성한 고객님인지 확인한다.
             // 아니라면 작업 중단.
 
-            await this.restaurantService.updateReview(userId, restaurantId, reviewId, updatedData);
+            await this.reviewService.updateReview(userId, restaurantId, reviewId, updatedData);
 
             return res.status(201).json({ message: '리뷰 수정에 성공하였습니다.' });
         } catch (err) {
@@ -189,7 +189,7 @@ export class ReviewsController {
             // 현재 고객님이 리뷰를 작성한 고객님인지 확인한다.
             // 아니라면 작업 중단.
 
-            await this.restaurantService.deleteReview(userId, restaurantId, reviewId, password);
+            await this.reviewService.deleteReview(userId, restaurantId, reviewId, password);
 
             return res.status(201).json({ message: '리뷰 삭제에 성공하였습니다!' });
         } catch (err) {
