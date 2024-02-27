@@ -6,7 +6,7 @@ export class MenusRepository {
     }
 
     createMenu = async (restaurantId, name, menuInfo, price, image) => {
-        const menu = await this.prisma.menus.create({
+        const menu = await this.prisma.Menus.create({
             data: {
                 restaurantId: +restaurantId,
                 name,
