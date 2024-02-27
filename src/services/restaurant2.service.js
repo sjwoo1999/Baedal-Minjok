@@ -17,6 +17,6 @@ export class restaurantService {
     };
 
     getRestaurantsByValue = async (value) => {
-        const
+        
     }
 }
