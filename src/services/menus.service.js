@@ -1,15 +1,14 @@
 export class MenusService {
-    constructor(menusRepository) {
+    constructor(menusRepository, usersRepository, restaurantRepository) {
         this.menusRepository = menusRepository;
     }
-    // constructor(usersRepository){
-    //     this.usersRepository = usersRepository;
-    // }
+    constructor(usersRepository){
+        this.usersRepository = usersRepository;
+    }
 
-    // constructor(restaurantRepository){
-    //     this.restaurantRepository = restaurantRepository;
-    // }
-
+    constructor(restaurantRepository){
+        this.restaurantRepository = restaurantRepository;
+    }
 
     createMenu = async (userId, restaurantId, name, menuInfo, price, image) => {
         const validation = await this.restaurantRepository.compareUserAndRestaurant(userId, restaurantId);

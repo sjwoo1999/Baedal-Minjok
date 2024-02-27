@@ -14,12 +14,12 @@ const authService = new AuthService(menusRepository);
 const authController = new AuthController(authService);
 
 /* menu 생성 (사장님) */
-router.post('/owner/restaurant/:restaurantId/menu', authController.authMiddleWare, menusController.createMenu);
+router.post('/restaurant/:restaurantId/menu', authController.authMiddleWare, menusController.createMenu);
 
 /* menu 수정 (사장님) */
-router.patch('/owner/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.updateMenu);
+router.patch('/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.updateMenu);
 
 /* menu 삭제 (사장님) */
-router.delete('/owner/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.deleteMenu);
+router.delete('/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.deleteMenu);
 
 export default router;

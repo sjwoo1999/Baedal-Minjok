@@ -1,5 +1,3 @@
-import bcrypt from 'bcrypt';
-
 export class MenusRepository {
     constructor(prisma) {
         this.prisma = prisma;

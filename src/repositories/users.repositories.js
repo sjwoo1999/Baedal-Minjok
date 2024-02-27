@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 export class UsersRepositories {
     // 프리즈마 생성자 생성
     constructor(prisma) {
