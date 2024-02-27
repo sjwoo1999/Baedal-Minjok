@@ -1,4 +1,4 @@
-export class restaurantController {
+export class RestaurantController {
     constructor(restaurantService) {
         this.restaurantService = restaurantService
     }

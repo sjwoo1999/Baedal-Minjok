@@ -1,4 +1,4 @@
-export default class OwnerRepository {
+export class OwnerRepository {
     constructor(prisma) {
         this.prisma = prisma;
     }

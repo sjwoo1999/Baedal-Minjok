@@ -1,11 +1,11 @@
 import express from "express";
 import { prisma } from "../utils/prisma/index.js";
 import { RestaurantController } from "../controllers/restaurant2.controller.js";
-import { RestaurantServices } from "../services/restaurant2.service.js";
-import { RestaurantRepositories } from "../repositories/restaurant2.repository.js";
+import { RestaurantService } from "../services/restaurant2.service.js";
+import { RestaurantRepository } from "../repositories/restaurant2.repository.js";
 const router = express.Router();
-const restaurantRepository = new RestaurantRepositories(prisma);
-const restaurantService = new RestaurantServices(restaurantRepository);
+const restaurantRepository = new RestaurantRepository(prisma);
+const restaurantService = new RestaurantService(restaurantRepository);
 const restaurantController = new RestaurantController(restaurantService);
 
 router.get('/restaurant/:id', restaurantController.getRestaurantById);
