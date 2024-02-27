@@ -51,6 +51,20 @@ export class OwnerController {
 
     deleteRestaurant = async (req, res, next) => {
         try {
+            const {restaurantId} = req.params;
+            
+            const existingRestaurant = await this.ownerService.findRestaurantById(restaurantId);
+            
+            if(!existingRestaurant){
+                return res.status(404).json({message: "레스토랑 정보가 존재하지 않습니다."});
+            }
+            
+            const {ownerId} = req.user;
+            
+            await this.ownerService.isOwner(ownerId);
+
+            const deleteRestaurant = await this.ownerService.deleteRestaurant(restaurantId);
+            return deleteRestaurant
 
         } catch (err) {
             next(err);
