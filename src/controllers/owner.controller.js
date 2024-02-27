@@ -9,7 +9,6 @@ export class OwnerController {
             const { id } = req.user;
 
             const isOwner = await this.ownerService.isOwner(id);
-            console.log('여기까지 들어옵니다.');
             if (!isOwner) {
                 return res.status(400).json({ message: '사장님만 가능한 기능입니다.' });
             }
@@ -38,22 +37,27 @@ export class OwnerController {
     updateRestaurant = async (req, res, next) => {
         try {
             const { restaurantId } = req.params;
+            console.log(restaurantId);
             const { name, callNumber, kind, restaurantInfo } = req.body;
-            const { ownerId } = req.user;
+            const { id } = req.user;
 
-            await this.ownerService.isOwner(ownerId);
+            const isOwner = await this.ownerService.isOwner(id);
+            if (!isOwner) {
+                return res.status(400).json({ message: '사장님만 가능한 기능입니다.' });
+            }
 
+            
             if (!name || !callNumber || !kind || !restaurantInfo) {
                 return res.status(400).json({ message: '모든 항목을 입력하세요.' });
             }
 
             const existingRestaurant = await this.ownerService.findRestaurantById(restaurantId);
-
+            const updateData = {name, callNumber, kind, restaurantInfo};
             if (!existingRestaurant) {
                 return res.status(404).json({ message: '레스토랑 정보가 존재하지 않습니다.' });
             }
 
-            const updatedRestaurant = await this.ownerService.updateRestaurant(name, callNumber, kind, restaurantInfo);
+            const updatedRestaurant = await this.ownerService.updateRestaurant(restaurantId, updateData);
             return updatedRestaurant;
         } catch (err) {
             next(err);
