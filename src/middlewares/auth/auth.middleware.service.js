@@ -31,7 +31,6 @@ export class AuthService {
         const access = tokenCheck(resetAccess);
         const decodedToken = jwt.verify(access, process.env.JWT_SECRET_KEY);
         const id = decodedToken.id;
-        console.log(id);
         const authUser = await this.usersRepository.findById(id);
 
         return { authUser, resetAccess };

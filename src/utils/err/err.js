@@ -25,3 +25,17 @@ export class TokenError extends Error {
         this.name = 'TokenError';
     }
 }
+
+export class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ValidationError';
+    }
+}
+
+export class DBError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'DBError';
+    }
+}

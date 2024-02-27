@@ -286,24 +286,147 @@ describe('유저 컨트롤러 유닛 테스트', () => {
         });
     });
 
-    // describe('로그인 테스트', ()=>{
-    //     beforeEach(() => {
-    //         jest.resetAllMocks();
-    //         mockResponse.status.mockReturnValue(mockResponse);
-    //     });
-    // })
+    describe('로그인 테스트', () => {
+        beforeEach(() => {
+            jest.resetAllMocks();
+            mockResponse.status.mockReturnValue(mockResponse);
+        });
 
-    // describe('로그아웃 테스트', ()=>{
-    //     beforeEach(() => {
-    //         jest.resetAllMocks();
-    //         mockResponse.status.mockReturnValue(mockResponse);
-    //     });
-    // })
+        // 로그인 - 성공
+        it('로그인 - 성공', async () => {
+            const requestBodyValue = {
+                email: 'hong@naver.com',
+                password: '123456',
+            };
 
-    // describe('내 정보 조회 테스트', ()=>{
-    //     beforeEach(() => {
-    //         jest.resetAllMocks();
-    //         mockResponse.status.mockReturnValue(mockResponse);
-    //     });
-    // })
+            mockRequest.body = requestBodyValue;
+            const signInUserReturnValue = {
+                accessToken: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXJ9.eyJpZ`,
+                refreshToken: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV9.eyJ`,
+                userName: '홍길동',
+                type: 'GUEST',
+            };
+
+            mockUsersService.signInUser.mockReturnValue(signInUserReturnValue);
+
+            const user = await usersController.signIn(mockRequest, mockResponse, mockNext);
+
+            expect(mockResponse.cookie).toHaveBeenCalledTimes(2);
+            expect(mockResponse.status).toHaveBeenCalledTimes(1);
+            expect(mockResponse.status).toHaveBeenCalledWith(201);
+            expect(user).toBeDefined;
+        });
+
+        // 이메일 또는  페스워드가 없을경우
+        it('로그인정보 누락(이메일, 비밀번호) - 실패', async () => {
+            const requestBodyValue = {
+                email: '',
+                password: '123456',
+            };
+
+            mockRequest.body = requestBodyValue;
+
+            const user = await usersController.signIn(mockRequest, mockResponse, mockNext);
+
+            expect(mockResponse.status).toHaveBeenCalledTimes(1);
+            expect(mockResponse.status).toHaveBeenCalledWith(400);
+            expect(user).not.toBeDefined;
+        });
+
+        // type이 없을경우 에러던짐
+        it('로그인 - 성공', async () => {
+            const requestBodyValue = {
+                email: 'hong@naver.com',
+                password: '123456',
+            };
+
+            mockRequest.body = requestBodyValue;
+            const signInUserReturnValue = {
+                accessToken: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXJ9.eyJpZ`,
+                refreshToken: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXV9.eyJ`,
+                userName: '홍길동',
+                type: '손님',
+            };
+
+            mockUsersService.signInUser.mockReturnValue(signInUserReturnValue);
+
+            const user = await usersController.signIn(mockRequest, mockResponse, mockNext);
+
+            expect(mockNext).toHaveBeenCalled();
+            expect(user).not.toBeDefined;
+        });
+    });
+
+    describe('로그아웃 테스트', () => {
+        beforeEach(() => {
+            jest.resetAllMocks();
+            mockResponse.status.mockReturnValue(mockResponse);
+        });
+
+        // 로그아웃 - 성공
+        it('로그아웃 - 성공', async () => {
+            const requestUserValue = {
+                id: 1,
+            };
+
+            mockRequest.user = requestUserValue;
+            await usersController.signOut(mockRequest, mockResponse, mockNext);
+
+            expect(mockResponse.clearCookie).toHaveBeenCalledTimes(2);
+
+            expect(mockResponse.status).toHaveBeenCalledTimes(1);
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+        });
+    });
+
+    describe('내 정보 조회 테스트', () => {
+        beforeEach(() => {
+            jest.resetAllMocks();
+            mockResponse.status.mockReturnValue(mockResponse);
+        });
+
+        // 내정보 조회 - 성공
+        it('내정보 조회 - 성공', async () => {
+            const RequestUserValue = {
+                id: '1',
+            };
+
+            mockRequest.user = RequestUserValue;
+
+            const getUserByIdReturnValue = {
+                userName: '홍길동',
+                userType: 'GUEST',
+                address: '서울특별시 강남구 강남1동',
+                point: 1000000,
+            };
+
+            mockUsersService.getUserById.mockReturnValue(getUserByIdReturnValue);
+
+            const user = await usersController.myInfo(mockRequest, mockResponse, mockNext);
+            expect(mockUsersService.getUserById).toHaveBeenCalledTimes(1);
+            expect(mockUsersService.getUserById).toHaveBeenCalledWith(RequestUserValue.id);
+
+            expect(mockResponse.status).toHaveBeenCalledTimes(1);
+            expect(mockResponse.status).toHaveBeenCalledWith(200);
+
+            expect(user).toBeDefined;
+        });
+
+        // 내정보 조회 에러리턴 - 실패
+        it('내정보 조회 에러리턴 - 실패', async () => {
+            const RequestUserValue = {
+                id: '1',
+            };
+
+            mockRequest.user = RequestUserValue;
+
+            const getUserByIdReturnValue = new Error('에러발생');
+
+            mockUsersService.getUserById.mockReturnValue(getUserByIdReturnValue);
+
+            await usersController.myInfo(mockRequest, mockResponse, mockNext);
+            expect(mockUsersService.getUserById).toHaveBeenCalledTimes(1);
+            expect(mockNext).toHaveBeenCalled;
+        });
+    });
 });
