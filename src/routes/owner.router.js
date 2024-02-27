@@ -12,10 +12,22 @@ const authController = new AuthController(authService);
 const router = express.Router();
 
 router.post('/:ownerId/restaurant', authController.authMiddleWare, async (req, res, next) => {
-    const { name, callNumber, kind, restaurantInfo } = req.body;
-    const {ownerId} = req.user;
 
     try{
+        const { name, callNumber, kind, restaurantInfo } = req.body;
+        const {ownerId} = req.user;
+        const isowner = await prisma.users.findFirst({
+            where: {
+                id: +ownerId,
+            }, select: {
+                type: true,
+            }
+        })
+
+        if(isowner === guest) {
+            return res.status(400).json({message: "사장님만 가능한 작업입니다."});
+        }
+
         const restaurant = await prisma.restaurant.create({
             data: {
                 userId: +ownerId,
