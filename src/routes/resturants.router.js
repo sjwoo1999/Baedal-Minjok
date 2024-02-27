@@ -1,16 +1,21 @@
 import express from 'express';
 import { prisma } from '../models/index.js';
+import {AuthController} from '../middlewares/auth/auth.middleware.controller.js';
+import {AuthService} from '../middlewares/auth/auth.middleware.service.js';
+
+const authService = new AuthService(usersRepository);
+const authController = new AuthController(authService);
 
 const router = express.Router();
 
 // 사장 아이디까지 조회해야하나? 안해야될꺼같다..
-router.get('/:id', async (req, res, next) => {
+router.get('/:restaurantId', async (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { restaurantId } = req.params;
 
         const restaurant = await prisma.restaurant.findUnique({
             where: {
-                id: +id,
+                id: +restaurantId,
             },
             select: {
                 id: true,
