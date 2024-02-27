@@ -80,8 +80,7 @@ export class UsersController {
                     errMessage: '회원의 타입이 지정된것과 다릅니다. 다시입력해주세요',
                 });
             }
-            // 회원가입
-            console.log('테스트 시작');
+
             const User = await this.usersService.createUser(email, userName, password, address, type);
             res.clearCookie('isEmailAuth');
             return res.status(201).json({ successMessage: `${User.userName}님 가입이 완료되었습니다.` });
