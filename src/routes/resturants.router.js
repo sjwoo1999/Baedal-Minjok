@@ -10,13 +10,12 @@ const router = express.Router();
 
 // 사장 아이디까지 조회해야하나? 안해야될꺼같다..
 router.get('/restaurant/:id', async (req, res, next) => {
-
     try {
-        const { restaurantId } = req.params;
+        const { id } = req.params;
 
         const restaurant = await prisma.restaurant.findUnique({
             where: {
-                id: +restaurantId,
+                id: +id,
             },
             select: {
                 id: true,

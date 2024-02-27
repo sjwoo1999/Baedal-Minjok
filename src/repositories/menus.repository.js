@@ -10,7 +10,7 @@ export class MenusRepository {
             data: {
                 restaurantId: +restaurantId,
                 name,
-                menuInfo,
+                menuInfo,   
                 price: +price,
                 image
             }
