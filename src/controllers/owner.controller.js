@@ -57,7 +57,7 @@ export class OwnerController {
             }
 
             const updatedRestaurant = await this.ownerService.updateRestaurant(restaurantId, updateData);
-            return res.status(201).json({message:"수정이 완료되었습니다."});
+            return res.status(200).json({message: "레스토랑 수정이 완료되었습니다"});
         } catch (err) {
             next(err);
         }
@@ -73,12 +73,15 @@ export class OwnerController {
                 return res.status(404).json({ message: '레스토랑 정보가 존재하지 않습니다.' });
             }
 
-            const { ownerId } = req.user;
-
-            await this.ownerService.isOwner(ownerId);
+            const { id } = req.user;
+            
+            const isOwner = await this.ownerService.isOwner(id);
+            if (!isOwner) {
+                return res.status(400).json({ message: '사장님만 가능한 기능입니다.' });
+            }
 
             const deleteRestaurant = await this.ownerService.deleteRestaurant(restaurantId);
-            return deleteRestaurant;
+            return res.status(200).json({message: "레스토랑 삭제가 완료되었습니다."});
         } catch (err) {
             next(err);
         }
