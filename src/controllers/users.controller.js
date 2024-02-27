@@ -1,3 +1,4 @@
+import { ValidationError } from '../utils/err/err.js';
 import { smtpTransport } from '../utils/nodemailer/email.js';
 import bcrypt from 'bcrypt';
 export class UsersController {
@@ -114,6 +115,8 @@ export class UsersController {
                     accessToken: user.accessToken,
                     refreshToken: user.refreshToken,
                 });
+            } else {
+                throw new ValidationError('유저의 타입이 잘못되었습니다.');
             }
         } catch (err) {
             next(err);

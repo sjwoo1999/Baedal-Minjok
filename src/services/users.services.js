@@ -115,6 +115,10 @@ export class UsersServices {
     getUserById = async (id) => {
         const user = await this.usersRepository.findByIdWithPoint(id);
 
+        if (!user) {
+            throw new DBError('데이터 베이스 에러입니다.');
+        }
+
         return {
             userName: user.userName,
             userType: user.type,

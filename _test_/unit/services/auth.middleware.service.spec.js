@@ -56,6 +56,7 @@ describe('인증미들웨어 서비스 유닛 테스트', () => {
 
         await expect(authService.checkAuth(TokenValue.accessToken, TokenValue.refreshToken)).rejects.toThrow();
     });
+
     it('리프레시 토큰은 있지만 액세스토큰이 없을경우', async () => {
         const TokenValue = {
             accessToken: '',
