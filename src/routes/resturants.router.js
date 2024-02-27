@@ -4,7 +4,7 @@ import { prisma } from '../models/index.js';
 const router = express.Router();
 
 // 사장 아이디까지 조회해야하나? 안해야될꺼같다..
-router.get('/:id', async (req, res, next) => {
+router.get('/restaurant/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
 
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
-router.get('/search', async (req, res) => {
+router.get('/restaurant/search', async (req, res) => {
     try {
         const { value } = req.query;
 
