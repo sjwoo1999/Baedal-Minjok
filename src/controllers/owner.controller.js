@@ -64,7 +64,7 @@ export class OwnerController {
             await this.ownerService.isOwner(ownerId);
 
             const deleteRestaurant = await this.ownerService.deleteRestaurant(restaurantId);
-            return deleteRestaurant
+            return deleteRestaurant;
 
         } catch (err) {
             next(err);
