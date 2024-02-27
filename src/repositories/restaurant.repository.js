@@ -1,52 +1,57 @@
-// 데이터 접근 및 조작
-// 5.6 Layered Architecture Pattern - Repository
-import { prisma } from '../utils/prisma/index.js';
+export class RestaurantRepository {
+    constructor(prisma) {
+      this.prisma = prisma;
+    }
 
-export class RestaurantsRepository {
-    // PATCH
-    deliveryDone = async () => {};
+    getRestaurantById = async (id) => {
+        const restaurant = await this.prisma.Restaurants.findFirst({
+            where: {id: +id}, 
+            select: {
+                id: true,
+                name: true,
+                callNumber: true,
+                kind: true,
+                restaurantInfo: true,
+                sales: true,
+            }
+        })
+        if(!restaurant) {
+            throw {code:404, message:"해당 아이디를 가진 레스토랑이 조회되지 않습니다."};
+        }
+        return restaurant;
+    }  
 
-    // POST
-    orderMenu = async () => {
-        // 저장소(Repository)에게 데이터를 요청합니다??
-        const orderedMenu = await prisma.Order.orderMenu({
-            data: {
-                userId,
-                restaurantId,
-                delieveryType,
-                status,
-                totPrice,
-                orderTime,
+    getRestaurantsByKind = async (kind) => {
+        const restaurants = await this.prisma.Restaurants.findMany({
+            where: {
+                kind: kind,
             },
-        });
-    };
-
-    // POST
-    createReview = async () => {
-        // 저장소(Repository)에게 데이터를 요청합니다??
-        const createdReview = await prisma.Comment.createReview({
-            data: {
-                userId,
-                restaurantId,
-                content,
-                rate,
+            select: {
+                name: true,
+                kind: true,
+                callNumber: true,
             },
-        });
+        })
+        if(!restaurants) {
+            throw {code:404, message: "해당 카테고리의 식당이 존재하지 않습니다."};
+        }
+        return restaurants;
+    }
 
-        return createdReview;
-    };
+    compareUserAndRestaurant = async (ownerId, restaurantId) => {
+        const restaurant = await this.prisma.Restaurants.findFirst({
+            where: {
+                userId: +ownerId
+            },
+            select: {
+                id: true,
+            }
+        })
 
-    // GET
-    getReviews = async () => {};
-
-    // PATCH
-    updateReview = async () => {
-        // 저장소(Repository)에게 특정 식당 하나를 요청합니다.
-        const restaurant = await this.RestaurantsRepository.getReviews();
-    };
-
-    // DELETE
-    deleteReview = async () => {
-        // 저장소(Repository)에게 특정 식당 하나를 요청합니다.
-    };
+        if (restaurant === restaurantId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
