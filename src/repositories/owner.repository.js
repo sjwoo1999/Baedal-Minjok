@@ -31,11 +31,9 @@ export class OwnerRepository {
     updateRestaurant = async (restaurantId, updateData) => {
         const updateRestaurant = await this.prisma.Restaurants.update({
             where: { id: +restaurantId },
-            data: {
-                ...updateData
-            },
+            data: {...updateData},
         });
-
+        console.log("수정 레포지토리 완료");
         return updateRestaurant;
     };
 

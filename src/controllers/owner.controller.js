@@ -46,7 +46,6 @@ export class OwnerController {
                 return res.status(400).json({ message: '사장님만 가능한 기능입니다.' });
             }
 
-            
             if (!name || !callNumber || !kind || !restaurantInfo) {
                 return res.status(400).json({ message: '모든 항목을 입력하세요.' });
             }
@@ -58,7 +57,7 @@ export class OwnerController {
             }
 
             const updatedRestaurant = await this.ownerService.updateRestaurant(restaurantId, updateData);
-            return updatedRestaurant;
+            return res.status(201).json({message:"수정이 완료되었습니다."});
         } catch (err) {
             next(err);
         }
