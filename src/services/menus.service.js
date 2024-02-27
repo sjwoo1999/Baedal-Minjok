@@ -1,12 +1,7 @@
 export class MenusService {
     constructor(menusRepository, usersRepository, restaurantRepository) {
         this.menusRepository = menusRepository;
-    }
-    constructor(usersRepository){
         this.usersRepository = usersRepository;
-    }
-
-    constructor(restaurantRepository){
         this.restaurantRepository = restaurantRepository;
     }
 
