@@ -18,25 +18,17 @@ export class MenusRepository {
         return menu;
     }
 
-    compareUserAndRestaurant = async (userId, restaurantId) => {
-        const user = await this.prisma.Restaurants.findFirst({
+    compareUserAndRestaurant = async (ownerId, restaurantId) => {
+        const restaurant = await this.prisma.Restaurants.findFirst({
             where: {
-                userId: +userId
+                userId: +ownerId
             },
             select: {
                 id: true,
             }
         })
-        const restaurant = await this.prisma.Menus.findFirst({
-            where: {
-                restaurantId: +restaurantId
-            },
-            select: {
-                restaurantId: true
-            }
-        })
 
-        if (user.id === restaurant) {
+        if (restaurant === restaurantId) {
             return true;
         } else {
             return false;

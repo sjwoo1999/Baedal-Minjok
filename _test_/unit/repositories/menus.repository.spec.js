@@ -62,4 +62,11 @@ describe('Menus Repository Unit test', () => {
             }
         });
     })
+
+    // test('CompareUserAndRestaurant Method true 반환 테스트', async()=>{
+    //     // user의 아이디와 restaurant의 아이디를 같게 지정해준다.
+    //     // 둘을 비교하여 true가 도출되도록 한다.
+    //     const mockReturn = 'true';
+        
+    // })
 })
