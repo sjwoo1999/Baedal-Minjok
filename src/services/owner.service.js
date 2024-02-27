@@ -17,7 +17,6 @@ export default class OwnerService {
         const updateRestaurant = await this.ownerRepository.updateRestaurant(name, callNumber, kind, restaurantInfo);
         return updateRestaurant;
     }
-
     findRestaurantById = async (restaurantId) => {
         const restaurant = await this.ownerRepository.findRestaurantById(restaurantId);
         return restaurant;
