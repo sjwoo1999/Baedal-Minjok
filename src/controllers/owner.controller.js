@@ -8,7 +8,10 @@ export class OwnerController {
             const { name, callNumber, kind, restaurantInfo } = req.body;
             const {ownerId} = req.user;
             
-            await this.ownerService.isOwner(ownerId);
+            const isOwner = await this.ownerService.isOwner(ownerId);
+            if(!isOwner) {
+                return res.status(400).json({message: "사장님만 가능한 기능입니다."});
+            }
 
             if(!name || !callNumber || !kind || !restaurantInfo) {
                 return res.status(400).json({message: "모든 항목을 입력하세요."});
@@ -18,7 +21,8 @@ export class OwnerController {
 
             return restaurant;
         } catch (err) {
-            next(err);
+            
+            console.log(err);
         }
     }
 

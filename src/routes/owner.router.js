@@ -14,8 +14,10 @@ const ownerController = new OwnerController(ownerService);
 const authService = new AuthService(ownerRepository);
 const authController = new AuthController(authService);
 
-router.post('/:ownerId/restaurant', authController.authMiddleWare, ownerController.createRestaurant);
+router.post('/restaurant', authController.authMiddleWare, ownerController.createRestaurant);
 
 router.patch('/:ownerId/restaurant/:restaurantId', authController.authMiddleWare, ownerController.updateRestaurant);
 
 router.delete('/:ownerId/restaurant/:restaurantId', authController.authMiddleWare, ownerController.deleteRestaurant);
+
+export default router;
