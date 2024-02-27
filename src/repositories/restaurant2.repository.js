@@ -1,4 +1,4 @@
-export class UsersRepositories {
+export class RestaurantRepository {
     constructor(prisma) {
       this.prisma = prisma;
     }

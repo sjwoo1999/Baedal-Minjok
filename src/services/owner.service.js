@@ -1,4 +1,4 @@
-export default class OwnerService {
+export class OwnerService {
     constructor(ownerRepository) {
         this.ownerRepository = ownerRepository;
     }
