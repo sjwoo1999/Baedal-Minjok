@@ -2,21 +2,21 @@ export default function (err, req, res, next) {
     // 에러처리하기
 
     switch (err.name) {
-        case 'ReferenceError':
-            console.log(err.message);
-            return res.status(404).json({ errMessage: err.message }); // 정의되지 않은 변수를 참조하려할 때 발생
+        // case 'ReferenceError':
+        //     console.log(err.message);
+        //     return res.status(404).json({ errMessage: err.message }); // 정의되지 않은 변수를 참조하려할 때 발생
 
-        case 'SyntaxError':
-            console.log(err.message);
-            return res.status(400).json({ errMessage: err.message }); // 코드의 구문이 잘못됨
+        // case 'SyntaxError':
+        //     console.log(err.message);
+        //     return res.status(400).json({ errMessage: err.message }); // 코드의 구문이 잘못됨
 
-        case 'TypeError':
-            console.log(err.message);
-            return res.status(400).json({ errMessage: err.message }); // 데이터 타입이 예상과 다름
+        // case 'TypeError':
+        //     console.log(err.message);
+        //     return res.status(400).json({ errMessage: err.message }); // 데이터 타입이 예상과 다름
 
-        case 'RangeError':
-            console.log(err.message);
-            return res.status(400).json({ errMessage: err.message }); // 숫자값이 허용된 범위 벗어남
+        // case 'RangeError':
+        //     console.log(err.message);
+        //     return res.status(400).json({ errMessage: err.message }); // 숫자값이 허용된 범위 벗어남
 
         case 'EmailAlreadyExistsError':
             console.log(err.message);
