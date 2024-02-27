@@ -1,44 +1,19 @@
 export class MenusRepository {
-    constructor(Prisma) {
-        this.prisma = Prisma;
+    constructor(prisma) {
+        this.prisma = prisma;
     }
 
     createMenu = async (restaurantId, name, menuInfo, price, image) => {
-        const menu = await this.prisma.menus.create({
+        const menu = await this.prisma.Menus.create({
             data: {
                 restaurantId: +restaurantId,
                 name,
-                menuInfo,
+                menuInfo,   
                 price: +price,
                 image
             }
         });
         return menu;
-    }
-
-    compareUserAndRestaurant = async (userId, restaurantId) => {
-        const user = await this.prisma.Restaurants.findFirst({
-            where: {
-                userId: +userId
-            },
-            select: {
-                id: true,
-            }
-        })
-        const restaurant = await this.prisma.Menus.findFirst({
-            where: {
-                restaurantId: +restaurantId
-            },
-            select: {
-                restaurantId: true
-            }
-        })
-
-        if (user.id === restaurant) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     findMenuByRestaurantId = async (restaurantId) => {
