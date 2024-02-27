@@ -1,17 +1,24 @@
 import express from 'express';
 import { prisma } from '../models/index.js';
-import authMiddleWare from '../middlewares/need-signin.middleware.js';
+
+import {AuthController} from '../middlewares/auth/auth.middleware.controller.js';
+import {AuthService} from '../middlewares/auth/auth.middleware.service.js';
+
+const authService = new AuthService(usersRepository);
+const authController = new AuthController(authService);
 
 // id와 onwerid 구분해야하나?????????
 
-router.post('/:ownerid/restaurant', authMiddleWare, async (req, res, next) => {
+const router = express.Router();
+
+router.post('/:ownerId/restaurant', authController.authMiddleWare, async (req, res, next) => {
     const { name, callNumber, kind, restaurantInfo } = req.body;
-    const {ownerid} = req.user;
+    const {ownerId} = req.user;
 
     try{
         const restaurant = await prisma.restaurant.create({
             data: {
-                id: +ownerid,
+                userId: +ownerId,
                 name: name,
                 callNumber: callNumber,
                 kind: kind,
@@ -26,7 +33,7 @@ router.post('/:ownerid/restaurant', authMiddleWare, async (req, res, next) => {
     }
 })
 
-router.patch('/:ownerId/restuarnt/:restaurantId', async (req, res, next) => {
+router.patch('/:ownerId/restaurant/:restaurantId', authController.authMiddleWare, async (req, res, next) => {
     try {
         const { restaurantId } = req.params;
         const { name, callNumber, kind, restaurantInfo } = req.body;
@@ -65,7 +72,7 @@ router.patch('/:ownerId/restuarnt/:restaurantId', async (req, res, next) => {
     }
 })
 
-router.delete('/:ownerid/restaurant/:restaurantId', async (req, res, next) => {
+router.delete('/:ownerId/restaurant/:restaurantId', authController.authMiddleWare, async (req, res, next) => {
     try{
         const {restaurantId} = req.params;
         const existingRestaurant = await prisma.restaurant.findFirst({
@@ -78,8 +85,8 @@ router.delete('/:ownerid/restaurant/:restaurantId', async (req, res, next) => {
             return res.status(404).json({message: "레스토랑 조회에 실패했습니다."});
         }
 
-        const {ownerid} = req.user;
-        if(existingRestaurant.id !== +ownerid) {
+        const {ownerId} = req.user;
+        if(existingRestaurant.id !== +ownerId) {
             return res.status(403).json({message: "본인의 레스토랑이 아닙니다."})
         }
 
