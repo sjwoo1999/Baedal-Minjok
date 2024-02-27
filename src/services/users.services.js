@@ -8,6 +8,37 @@ export class UsersServices {
         this.usersRepository = usersRepository;
     }
 
+    // 이메일 인증
+    emailAuth = async (email) => {
+        const authCode = Math.random().toString(36).substring(2, 8); // 무작위 인증코드 생성
+        const hashedCode = await bcrypt.hash(authCode, 10); // 무작위 인증코드 해시하기
+
+        const checkMail = (data) => {
+            return `
+                  <!DOCTYPE html>
+                  <html lang="en">
+                  <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <title>이메일 인증</title>
+                  </head>
+                  <body>
+                      <div> 인증문자는 ${data} 입니다. </div>
+                  </body>
+                  </html>
+                  `;
+        };
+
+        const mailOptions = {
+            from: process.env.AUTHUSER, //발신자 이메일
+            to: email, // 사용자가 입력한 이메일 == 인증할 이메일
+            subject: '인증메일입니다.', // 메일제목
+            html: checkMail(authCode), //표현할 html
+        };
+
+        return { mailOptions, hashedCode };
+    };
+
     // 회원가입
     createUser = async (email, userName, password, address, type) => {
         const isExistUser = await this.usersRepository.findByEmail(email);
@@ -18,7 +49,21 @@ export class UsersServices {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const createdUser = await this.usersRepository.createUser(email, userName, hashedPassword, address, type);
+        let point = 0;
+        if (type === 'OWNER') {
+            point = 0;
+        } else if (type === 'GUEST') {
+            point = 1000000;
+        }
+
+        const createdUser = await this.usersRepository.createUser(
+            email,
+            userName,
+            hashedPassword,
+            address,
+            type,
+            point
+        );
 
         return {
             userName: createdUser.userName,

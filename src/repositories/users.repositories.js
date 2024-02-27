@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt';
+
 export class UsersRepositories {
     // 프리즈마 생성자 생성
     constructor(prisma) {
@@ -14,7 +16,7 @@ export class UsersRepositories {
         return findUser;
     };
 
-    createUser = async (email, userName, hashedPassword, address, type) => {
+    createUser = async (email, userName, hashedPassword, address, type, point) => {
         const createdUser = await this.prisma.$transaction(async (tx) => {
             const createdUser = await tx.users.create({
                 data: {
@@ -29,6 +31,7 @@ export class UsersRepositories {
             await tx.points.create({
                 data: {
                     userId: createdUser.id,
+                    point: point,
                 },
             });
 
@@ -89,5 +92,20 @@ export class UsersRepositories {
             },
         });
         return user;
+    };
+
+    comparePassword = async (id, password) => {
+        const writtenPassword = password;
+        const originPassword = await this.prisma.Users.findFirst({
+            where: {
+                id: +id
+            },
+            select: {
+                password: true
+            }
+        })
+        const comparison = await bcrypt.compare(writtenPassword, originPassword);
+
+        return comparison;
     };
 }
