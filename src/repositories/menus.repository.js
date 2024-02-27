@@ -92,7 +92,7 @@ export class MenusRepository {
         return menu;
     }
 
-    findPassword = async (id, password) => {
+    comparePassword = async (id, password) => {
         const writtenPassword = password;
         const originPassword = await this.prisma.Users.findFirst({
             where: {

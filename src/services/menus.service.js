@@ -41,7 +41,7 @@ export class MenusService {
     deleteMenu = async(userId, restaurantId, menuId, password)=>{
         const comparison = await this.menusRepository.comparePassword(userId, password);
         if(!comparison){
-            throw { code: 400, message: "본인 식당의 메뉴만 삭제가 가능합니다."};
+            throw { code: 400, message: "자신의 식당의 메뉴만 삭제가 가능합니다."};
         }
 
         const menu = await this.menusRepository.deleteMenu(restaurantId, menuId);
