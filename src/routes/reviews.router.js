@@ -5,7 +5,7 @@ import { prisma } from '../utils/prisma/index.js';
 import { ReviewsController } from '../controllers/reviews.controller.js';
 import { ReviewsServices } from '../services/restaurant.service.js';
 import { ReviewsRepositories } from '../repositories/reviews.repository.js';
-import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';}
+import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
 const router = express.Router();
 
@@ -17,18 +17,10 @@ const authService = new AuthService(reviewsRepository);
 const authController = new AuthController(authService);
 
 /** 리뷰 생성 **/
-router.post(
-    '/restaurant/:restaurantId/review',
-    authController.authMiddleWare,
-    reviewsController.createReview 
-);
+router.post('/restaurant/:restaurantId/review', authController.authMiddleWare, reviewsController.createReview);
 
 /** 리뷰 리스트 조회 **/
-router.get(
-    '/restaurant/:restaurantId/review',
-    authController.authMiddleWare,
-    reviewsController.getReviewList
-);
+router.get('/restaurant/:restaurantId/review', authController.authMiddleWare, reviewsController.getReviewList);
 
 /** 리뷰 세부사항 조회 **/
 router.get(
@@ -45,10 +37,6 @@ router.patch(
 );
 
 /** 리뷰 삭제 **/
-router.delete(
-    '/restaurant/:restaurantId/review',
-    authController.authMiddleWare,
-    reviewsController.deleteReview
-);
+router.delete('/restaurant/:restaurantId/review', authController.authMiddleWare, reviewsController.deleteReview);
 
 export default router;
