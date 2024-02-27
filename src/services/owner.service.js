@@ -22,13 +22,10 @@ export class OwnerService {
         return restaurant;
     };
 
-    updateRestaurant = async (restaurantId, name, callNumber, kind, restaurantInfo) => {
+    updateRestaurant = async (restaurantId, updateData) => {
         const updateRestaurant = await this.ownerRepository.updateRestaurant(
             restaurantId,
-            name,
-            callNumber,
-            kind,
-            restaurantInfo
+            updateData,
         );
         return updateRestaurant;
     };
