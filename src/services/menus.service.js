@@ -2,9 +2,17 @@ export class MenusService {
     constructor(menusRepository) {
         this.menusRepository = menusRepository;
     }
+    // constructor(usersRepository){
+    //     this.usersRepository = usersRepository;
+    // }
+
+    // constructor(restaurantRepository){
+    //     this.restaurantRepository = restaurantRepository;
+    // }
+
 
     createMenu = async (userId, restaurantId, name, menuInfo, price, image) => {
-        const validation = await this.menusRepository.compareUserAndRestaurant(userId, restaurantId);
+        const validation = await this.restaurantRepository.compareUserAndRestaurant(userId, restaurantId);
         if (!validation) {
             throw { code: 400, message: "자신의 식당의 메뉴만 작성할 수 있습니다." };
         }
@@ -29,7 +37,7 @@ export class MenusService {
     }
 
     updatedMenu = async (userId, restaurantId, menuId, updatedData) => {
-        const validation = await this.menusRepository.compareUserAndRestaurant(userId, restaurantId);
+        const validation = await this.restaurantRepository.compareUserAndRestaurant(userId, restaurantId);
         if (!validation) {
             throw { code: 400, message: "자신의 식당의 메뉴만 수정할 수 있습니다." };
         }
@@ -39,7 +47,7 @@ export class MenusService {
     }
 
     deleteMenu = async(userId, restaurantId, menuId, password)=>{
-        const comparison = await this.menusRepository.comparePassword(userId, password);
+        const comparison = await this.usersRepository.comparePassword(userId, password);
         if(!comparison){
             throw { code: 400, message: "자신의 식당의 메뉴만 삭제가 가능합니다."};
         }

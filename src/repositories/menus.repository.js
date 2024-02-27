@@ -18,23 +18,6 @@ export class MenusRepository {
         return menu;
     }
 
-    compareUserAndRestaurant = async (ownerId, restaurantId) => {
-        const restaurant = await this.prisma.Restaurants.findFirst({
-            where: {
-                userId: +ownerId
-            },
-            select: {
-                id: true,
-            }
-        })
-
-        if (restaurant === restaurantId) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     findMenuByRestaurantId = async (restaurantId) => {
         const menu = await this.prisma.Menus.findFirst({
             where: {
@@ -82,21 +65,6 @@ export class MenusRepository {
             }
         })
         return menu;
-    }
-
-    comparePassword = async (id, password) => {
-        const writtenPassword = password;
-        const originPassword = await this.prisma.Users.findFirst({
-            where: {
-                id: +id
-            },
-            select: {
-                password: true
-            }
-        })
-        const comparison = await bcrypt.compare(writtenPassword, originPassword);
-
-        return comparison;
     }
 
     updateMenu = async (restaurantId, menuId, updatedata) => {
