@@ -1,3 +1,4 @@
+import { restart } from "nodemon";
 import { clearLine } from "readline";
 
 export default class OwnerRepository {
@@ -25,4 +26,29 @@ export default class OwnerRepository {
         return restaurant;
     }
 
+    updateRestaurant = async (restaurantId, name, callNumber, kind, restaurantInfo) => {
+        const updateRestaurant = await this.prisma.Restaurants.update({
+            where: {id: +restaurantId},
+            data: {name, callNumber, kind, restaurantInfo},
+        })
+
+        return updateRestaurant;
+    }
+
+    deleteRestaurant = async (restaurantId) => {
+        const deleteRestaurant = await this.prisma.Restaurants.delete({
+            where: {id: +restaurantId},
+        });
+
+        return deleteRestaurant;
+    }
+
+    findRestaurantById = async (restaurantId) => {
+        const restaurant = await this.prisma.Restaurants.findFirst({
+            where: {id: +restaurantId},
+            select: {id: true},
+        })
+
+        return restaurant;
+    }
 }
