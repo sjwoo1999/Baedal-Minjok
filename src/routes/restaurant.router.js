@@ -1,45 +1,57 @@
 // 라우팅 설정 및 컨트롤러 연결
 
 import express from 'express';
-// authMiddleware import 임시 코드
-// 둘 중 어떤 걸 사용해야 할까? -> 둘 다
-import authMiddleware from '../middlewares/auth/auth.middleware.controller.js';
-import authMiddleware from '../middlewares/auth/auth.middleware.service.js';
-
-// User 요청 처리 컨트롤러 불러오기
-const { RestaurantController } = require('../controllers/restaurant.controller.js');
-
+import { prisma } from '../utils/prisma/index.js';
+import { RestaurantsController } from '../controllers/restaurant.controller.js';
+import { RestaurantsServices } from '../services/restaurant.service.js';
+import { RestaurantsRepositories } from '../repositories/restaurant.repository.js';
+import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
+import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
 const router = express.Router();
 
-// RestaurantController의 인스턴스를 생성한다.
-const restaurantController = new RestaurantController();
+// 3계층의 의존성을 모두 주입한다.
+const restaurantsRepository = new RestaurantsRepositories(prisma);
+const restaurantsService = new RestaurantsServices(restaurantsRepository);
+const restaurantController = new RestaurantsController(restaurantsService);
 
-// 모든 API 요청 URL에 대해서 /api 하위로 작성해주기 위해서는 미들웨어를 사용해줘야 하지 않을까? 🤔
+// AuthController 인스턴스 생성.
+const authService = new AuthService(restaurantsRepository);
+const authController = new AuthController(authService);
 
 // API 요청 라우팅 설정
 
 /* 배달 완료 기능 | 사장님 */
-
-router.patch('/api/restaurant/:restaurantId/order/:orderId', authMiddleware, restaurantController.deliveryDone);
+router.patch(
+    '/restaurant/:restaurantId/order/:orderId',
+    authController.authMiddleware,
+    restaurantController.updateDeliveryStatus
+);
 
 /* 메뉴 주문 기능 | 고객님 */
+router.post('/restaurant/:restaurantId/order', authController.authMiddleware, restaurantController.orderMenu);
 
-router.post('/api/restaurant/:restaurantId/order', authMiddleware, restaurantController.orderMenu);
+/* 리뷰 생성 | 고객님 */
+router.post('/restaurant/:restaurantId/review', authController.authMiddleware, restaurantController.createReview);
 
-/* 리뷰 및 평점 생성 | 고객님 */
+/* 리뷰 리스트 조회 | 사용자 */
+router.get('/restaurant/:restaurantId/review', authController.authMiddleware, restaurantController.getReviewList);
 
-router.post('/api/restaurant/:restaurantId/review', authMiddleware, restaurantController.createReview);
+/* 리뷰 세부사항 조회 | 사용자 */
+router.get(
+    '/restaurant/:restaurantId/review/:reviewId',
+    authController.authMiddleware,
+    restaurantController.getReviewDetail
+);
 
-/* 리뷰 및 평점 조회 | 고객님 */
-
-router.get('/api/restaurant/:restaurantId/review', authMiddleware, restaurantController.getReviews);
-
-/* 리뷰 및 평점 수정 | 고객님 */
-
-router.patch('/api/restaurant/:restaurantId/review/:reviewId', authMiddleware, restaurantController.updateReview);
+/* 리뷰 수정 | 고객님 */
+router.patch(
+    '/restaurant/:restaurantId/review/:reviewId',
+    authController.authMiddleware,
+    restaurantsController.updateReview
+);
 
 /* 리뷰 및 평점 삭제 | 고객님 */
 
-router.delete('/api/restaurant/:restaurantId/review', authMiddleware, restaurantController.deleteReview);
+router.delete('/restaurant/:restaurantId/review', authController.authMiddleware, restaurantsController.deleteReview);
 
 export default router;

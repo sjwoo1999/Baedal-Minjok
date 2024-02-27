@@ -1,4 +1,4 @@
-export class UsersController {
+export class UsersControllers {
     constructor(usersService) {
         this.usersService = usersService;
     }
@@ -48,13 +48,11 @@ export class UsersController {
             res.cookie('refreshToken', user.refreshToken);
 
             if (user.type === 'OWNER') {
-                return res
-                    .status(201)
-                    .json({
-                        successMessage: `${user.userName} 사장님 로그인 성공!`,
-                        accessToken: user.accessToken,
-                        refreshToken: user.refreshToken,
-                    });
+                return res.status(201).json({
+                    successMessage: `${user.userName} 사장님 로그인 성공!`,
+                    accessToken: user.accessToken,
+                    refreshToken: user.refreshToken,
+                });
             } else if (user.type === 'GUEST') {
                 return res.status(201).json({
                     successMessage: `${user.userName}님 로그인 성공!`,

@@ -1,19 +1,23 @@
 // 데이터 접근 및 조작
 // 5.6 Layered Architecture Pattern - Repository
-import { prisma } from '../utils/prisma/index.js';
-
 export class RestaurantsRepository {
+    // 프리즈마 생성자 생성
+    constructor(prisma) {
+        this.prisma = prisma;
+    }
+
+    /*
     // PATCH
     deliveryDone = async () => {};
 
     // POST
-    orderMenu = async () => {
+    orderMenu = async (userId, restaurantId, deliveryType, status, totPrice, orderTime) => {
         // 저장소(Repository)에게 데이터를 요청합니다??
         const orderedMenu = await prisma.Order.orderMenu({
             data: {
                 userId,
                 restaurantId,
-                delieveryType,
+                deliveryType,
                 status,
                 totPrice,
                 orderTime,
@@ -22,7 +26,7 @@ export class RestaurantsRepository {
     };
 
     // POST
-    createReview = async () => {
+    createReview = async (userId, restaurantId, content, rate) => {
         // 저장소(Repository)에게 데이터를 요청합니다??
         const createdReview = await prisma.Comment.createReview({
             data: {
@@ -49,4 +53,5 @@ export class RestaurantsRepository {
     deleteReview = async () => {
         // 저장소(Repository)에게 특정 식당 하나를 요청합니다.
     };
+    */
 }

@@ -1,7 +1,7 @@
 import express from 'express';
-import {MenusController} from '../controllers/menus.controller.js';
-import {MenusService} from '../services/menus.service.js';
-import {MenusRepository} from '../repositories/menus.repository.js';
+import { MenusController } from '../controllers/menus.controller.js';
+import { MenusService } from '../services/menus.service.js';
+import { MenusRepository } from '../repositories/menus.repository.js';
 import { Prisma } from '@prisma/client';
 
 const router = express.Router();
@@ -13,10 +13,10 @@ const menusController = new MenusController(menusService);
 router.post('/owner/restaurant/:restaurantId/menu', authMiddleware, menusController.createMenu);
 
 /* menu 전체 조회 */
-router.get('/restaurant/:restaurantId/menus',menusController.findMenus);
+router.get('/restaurant/:restaurantId/menus', menusController.findMenus);
 
 /* menu 상세 조회 */
-router.get('/restaurant/:restaurantId/menu/:menuId',menusController.findOneMenu);
+router.get('/restaurant/:restaurantId/menu/:menuId', menusController.findOneMenu);
 
 /* menu 수정 (사장님) */
 router.patch('/owner/restaurant/:restaurantId/menu/:menuId', authMiddleware, menusController.updateMenu);

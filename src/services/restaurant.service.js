@@ -1,11 +1,50 @@
 // 비즈니스 로직 구현
 // 5.5 Layered Architecture Pattern - Service
-import { RestaurantRepository } from '../repositories/restaurant.repository.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { RestaurantsRepository } from '../repositories/restaurant.repository.js';
 
-// 생성자 작성 필요..
+// 생성자 작성 필요
 
 export class RestaurantsService {
-    restaurantRepository = new RestaurantRepository();
+    // 생성자 작성 필요
+    // 테스트 하기 위해 이런 식으로 작성 ~
+    // 의존성 주입을 위함 ~
+    constructor(restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
+
+    updateDeliveryStatus = async (status) => {
+        return { json };
+    };
+
+    orderMenu = async () => {
+        return { json };
+    };
+
+    createdReview = async (userId, restaurant, content, rate) => {
+        return { json };
+    };
+
+    getReviewDetail = async (restaurantId, reviewId) => {
+        return { json };
+    };
+
+    updateReview = async (userId, restaurantId, revieId, updatedData) => {
+        return { json };
+    };
+
+    deleteReview = async (userId, restaurantId, reviewId, password) => {
+        return { json };
+    };
+
+    /*
+    // 이것저것 주석
+    // 이거 왜 작성했는지 파악해야 함 : 필요 없다면 지워야 함
+    // new 같은 경우 .. 경로로 받아온 다음에 instance 생성 ..
+    // 이런 경우 ctrl + 클릭 -> 연결 가능 .. 직접적으로 연결 ~
+    // restaurantRepository = new RestaurantRepository();
+
 
     // PATCH
     deliveryDone = async () => {
@@ -88,4 +127,5 @@ export class RestaurantsService {
         // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
         return { json };
     };
+    */
 }
