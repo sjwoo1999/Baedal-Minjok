@@ -10,6 +10,8 @@ const restaurantController = new RestaurantController(restaurantService);
 
 router.get('/restaurant/:id', restaurantController.getRestaurantById);
 
+
+
 router.get('/restaurant/search', restaurantController.getRestaurantsByKind);
 
 export default router;

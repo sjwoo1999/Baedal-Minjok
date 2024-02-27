@@ -16,8 +16,8 @@ const authController = new AuthController(authService);
 
 router.post('/restaurant', authController.authMiddleWare, ownerController.createRestaurant);
 
-router.patch('/:ownerId/restaurant/:restaurantId', authController.authMiddleWare, ownerController.updateRestaurant);
+router.patch('/restaurant/:restaurantId', authController.authMiddleWare, ownerController.updateRestaurant);
 
-router.delete('/:ownerId/restaurant/:restaurantId', authController.authMiddleWare, ownerController.deleteRestaurant);
+router.delete('/restaurant/:restaurantId', authController.authMiddleWare, ownerController.deleteRestaurant);
 
 export default router;
