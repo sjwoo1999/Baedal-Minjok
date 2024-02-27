@@ -8,9 +8,9 @@ export class MenusController {
         try {
             const { restaurantId } = req.params;
             const { name, price, image, menuInfo } = req.body;
-            const userId = req.user;
+            const {id} = req.user;
 
-            if (!userId) return res.status(400).json({ message: "로그인을 다시 하세요." });
+            if (!id) return res.status(400).json({ message: "로그인을 다시 하세요." });
             if (!name) {
                 return res.status(400).json({ message: '메뉴 이름을 작성하세요.' });
             }
@@ -22,7 +22,7 @@ export class MenusController {
             }
 
             const menu = await this.menusService.createMenu(
-                userId,
+                id,
                 restaurantId,
                 name,
                 menuInfo,
@@ -77,7 +77,9 @@ export class MenusController {
     /* 메뉴 수정 */
     updateMenu = async (req, res, next) => {
         try {
-            const { restaurantId, menuId } = req.params;
+            // const { restaurantId, menuId } = req.params;
+            const restaurantId = req.query.restaurantId;
+            const menuId = req.query.menuId;
             const updatedData = req.body;
             const { userId } = req.user;
 
@@ -95,7 +97,9 @@ export class MenusController {
     /* 메뉴 삭제 */
     deleteMenu = async (req, res, next) => {
         try {
-            const { restaurantId, menuId } = req.params;
+            // const { restaurantId, menuId } = req.params;
+            const restaurantId = req.query.restaurantId;
+            const menuId = req.query.menuId;
             const password = req.body;
             const { userId } = req.user;
 

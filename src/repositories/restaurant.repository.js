@@ -48,7 +48,7 @@ export class RestaurantRepository {
             }
         })
 
-        if (restaurant === restaurantId) {
+        if (restaurant.id === +restaurantId) {
             return true;
         } else {
             return false;

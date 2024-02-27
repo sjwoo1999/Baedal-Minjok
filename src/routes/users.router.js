@@ -1,6 +1,6 @@
 import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
-import { UsersControllers } from '../controllers/users.controller.js';
+import { UsersController } from '../controllers/users.controller.js';
 import { UsersServices } from '../services/users.services.js';
 import { UsersRepositories } from '../repositories/users.repositories.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
@@ -10,7 +10,7 @@ const router = express.Router();
 // 3계층의 의존성을 모두 주입합니다.
 const usersRepository = new UsersRepositories(prisma);
 const usersService = new UsersServices(usersRepository);
-const usersController = new UsersControllers(usersService);
+const usersController = new UsersController(usersService);
 
 // AuthController인스턴스 생성.
 const authService = new AuthService(usersRepository);
