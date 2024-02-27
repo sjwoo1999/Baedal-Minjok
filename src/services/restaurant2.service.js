@@ -5,18 +5,11 @@ export class restaurantService {
 
     getRestaurantById = async (id) => {
         const restaurant = await this.restaurantRepository.getRestaurantById(id);
-        return {
-          id: restaurant.id,
-          name: restaurant.name,
-          callNumber: restaurant.callNumber,
-          kind: restaurant.kind,
-          restaurantInfo: restaurant.restaurantInfo,
-          sales: restaurant.sales,
-          rate: restaurant.rate,
-        };
+        return restaurant;
     };
 
-    getRestaurantsByValue = async (value) => {
-        
+    getRestaurantsByKind = async (kind) => {
+        const restaurants = await this.restaurantRepository.getRestaurantsByKind(kind);
+        return restaurants;
     }
 }
