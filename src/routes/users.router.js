@@ -16,6 +16,10 @@ const usersController = new UsersControllers(usersService);
 const authService = new AuthService(usersRepository);
 const authController = new AuthController(authService);
 
+// 이메일 인증
+router.get('/mail-check', usersController.mailSend);
+router.post('/mail-check', usersController.mailCheck);
+
 // 회원가입
 router.post('/sign-up', usersController.signUp);
 
