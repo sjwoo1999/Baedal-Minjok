@@ -17,7 +17,6 @@ export class UsersController {
             const emailAuthInfo = await this.usersService.emailAuth(email);
 
             smtpTransport.sendMail(emailAuthInfo.mailOptions, (err, response) => {
-                console.log('response', response);
                 if (err) {
                     smtpTransport.close(); //전송종료
                     return res.status(550).json({ errorMessage: '메일 전송에 실패하였습니다.' });
@@ -81,7 +80,7 @@ export class UsersController {
                     errMessage: '회원의 타입이 지정된것과 다릅니다. 다시입력해주세요',
                 });
             }
-            // 회원가입
+
             const User = await this.usersService.createUser(email, userName, password, address, type);
             res.clearCookie('isEmailAuth');
             return res.status(201).json({ successMessage: `${User.userName}님 가입이 완료되었습니다.` });

@@ -1,27 +1,31 @@
 import express from 'express';
-import {MenusController} from '../controllers/menus.controller.js';
-import {MenusService} from '../services/menus.service.js';
-import {MenusRepository} from '../repositories/menus.repository.js';
-import { Prisma } from '@prisma/client';
+import { MenusController } from '../controllers/menus.controller.js';
+import { MenusService } from '../services/menus.service.js';
+import { MenusRepository } from '../repositories/menus.repository.js';
+import { prisma } from '../utils/prisma/index.js';
+import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
+import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
 
 const router = express.Router();
-const menusRepository = new MenusRepository(Prisma);
+const menusRepository = new MenusRepository(prisma);
 const menusService = new MenusService(menusRepository);
 const menusController = new MenusController(menusService);
+const authService = new AuthService(menusRepository);
+const authController = new AuthController(authService);
 
 /* menu 생성 (사장님) */
-router.post('/owner/restaurant/:restaurantId/menu', authMiddleware, menusController.createMenu);
+router.post('/owner/restaurant/:restaurantId/menu', authController.authMiddleWare, menusController.createMenu);
 
 /* menu 전체 조회 */
-router.get('/restaurant/:restaurantId/menus',menusController.findMenus);
+router.get('/restaurant/:restaurantId/menus', menusController.findMenus);
 
 /* menu 상세 조회 */
-router.get('/restaurant/:restaurantId/menu/:menuId',menusController.findOneMenu);
+router.get('/restaurant/:restaurantId/menu/:menuId', menusController.findOneMenu);
 
 /* menu 수정 (사장님) */
-router.patch('/owner/restaurant/:restaurantId/menu/:menuId', authMiddleware, menusController.updateMenu);
+router.patch('/owner/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.updateMenu);
 
 /* menu 삭제 (사장님) */
-router.delete('/owner/restaurant/:restaurantId/menu/:menuId', authMiddleware, menusController.deleteMenu);
+router.delete('/owner/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.deleteMenu);
 
 export default router;
