@@ -1,6 +1,3 @@
-import { restart } from "nodemon";
-import { clearLine } from "readline";
-
 export default class OwnerRepository {
     constructor(prisma) {
         this.prisma = prisma;

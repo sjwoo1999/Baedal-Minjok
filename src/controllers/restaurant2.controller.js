@@ -18,7 +18,7 @@ export class restaurantController {
 
     getRestaurantsByKind = async (req, res, next) => {
         try{
-        const {kind} = req.params;
+        const {kind} = req.query;
         if(!kind) {
             return res.status(400).json({message: "종류를 입력해주세요."});
         }
