@@ -104,7 +104,7 @@ export class UsersRepositories {
                 password: true
             }
         })
-        const comparison = await bcrypt.compare(writtenPassword, originPassword);
+        const comparison = await bcrypt.compare(writtenPassword.password, originPassword.password);
 
         return comparison;
     };

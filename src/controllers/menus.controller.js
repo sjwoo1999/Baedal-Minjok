@@ -58,7 +58,10 @@ export class MenusController {
     /* 메뉴 상세 조회 */
     findOneMenu = async (req, res, next) => {
         try {
-            const { restaurantId, menuId } = req.params;
+            // const { restaurantId, menuId } = req.params;
+            const restaurantId = req.query.restaurantId;
+            const menuId = req.query.menuId;
+
             if (!restaurantId) {
                 return res.status(400).json({ message: "음식점을 입력하지 않았습니다." })
             }
@@ -81,13 +84,13 @@ export class MenusController {
             const restaurantId = req.query.restaurantId;
             const menuId = req.query.menuId;
             const updatedData = req.body;
-            const { userId } = req.user;
+            const { id } = req.user;
 
-            if (!userId) return res.status(400).json({ message: "로그인을 다시 하세요." });
+            if (!id) return res.status(400).json({ message: "로그인을 다시 하세요." });
             if (!restaurantId) return res.status(401).json({ message: "수정하려는 레스토랑의 아이디를 입력하지 않았습니다." });
             if (!menuId) return res.status(401).json({ message: "수정하려는 메뉴의 아이디를 입력하지 않았습니다." });
 
-            await this.menusService.updatedMenu(userId, restaurantId, menuId, updatedData);
+            await this.menusService.updatedMenu(id, restaurantId, menuId, updatedData);
             return res.status(201).json({ message: "메뉴 수정에 성공하였습니다." });
         } catch (err) {
             next(err);
@@ -101,14 +104,14 @@ export class MenusController {
             const restaurantId = req.query.restaurantId;
             const menuId = req.query.menuId;
             const password = req.body;
-            const { userId } = req.user;
+            const { id } = req.user;
 
-            if (!userId) return res.status(400).json({ message: "로그인을 다시 하세요." });
+            if (!id) return res.status(400).json({ message: "로그인을 다시 하세요." });
             if (!restaurantId) return res.status(401).json({ message: "삭제하려는 레스토랑의 아이디를 입력하지 않았습니다." });
             if (!menuId) return res.status(401).json({ message: "삭제하려는 메뉴의 아이디를 입력하지 않았습니다." });
             if (!password) return res.status(401).json({ message: "비밀번호를 입력하지 않았습니다." });
 
-            await this.menusService.deleteMenu(userId, restaurantId, menuId, password);
+            await this.menusService.deleteMenu(id, restaurantId, menuId, password);
 
             return res.status(201).json({ message: "메뉴 삭제에 성공하였습니다." });
         } catch (err) {

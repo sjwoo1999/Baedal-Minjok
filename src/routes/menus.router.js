@@ -13,6 +13,6 @@ const menusController = new MenusController(menusService);
 router.get('/restaurant/:restaurantId/menus', menusController.findMenus);
 
 /* menu 상세 조회 */
-router.get('/restaurant/:restaurantId/menu/:menuId', menusController.findOneMenu);
+router.get('/restaurant/menu', menusController.findOneMenu);
 
 export default router;
