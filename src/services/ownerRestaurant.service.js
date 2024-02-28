@@ -1,6 +1,9 @@
+import { AlreadyExistsError } from '../utils/err/err.js';
+
 export class OwnerService {
-    constructor(ownerRepository) {
+    constructor(ownerRepository, restaurantRepository) {
         this.ownerRepository = ownerRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     // isOwner = async (ownerId) => {
@@ -9,6 +12,11 @@ export class OwnerService {
     // };
 
     createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount, rate) => {
+        const isExistRestaurant = await this.restaurantRepository.findRestaurantByUserId(id);
+
+        if (isExistRestaurant) {
+            throw new AlreadyExistsError('레스토랑이 이미 존재합니다. 개인이 가질수 있는 레스토랑은 하나입니다.');
+        }
         const restaurant = await this.ownerRepository.createRestaurant(
             id,
             name,
