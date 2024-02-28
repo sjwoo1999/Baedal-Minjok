@@ -1,15 +1,18 @@
-export class ReviewsRepositoriy {
+export class ReviewsRepository {
     // 프리즈마 생성자 생성
     constructor(prisma) {
         this.prisma = prisma;
     }
 
-    createReview = async (restaurantId, content, rate) => {
-        const review = await this.prisma.Reviews.create({
+    createReview = async (id, restaurantId, content, rate) => {
+        console.log('@@@@@@@@@');
+
+        await this.prisma.Reviews.create({
             data: {
+                userId: +id,
                 restaurantId: +restaurantId,
                 content,
-                rate,
+                rate: +rate,
             },
         });
     };
@@ -17,12 +20,12 @@ export class ReviewsRepositoriy {
     findReviewByReviewId = async (restaurantId, reviewId) => {
         const review = await this.prisma.Reviews.findFirst({
             where: {
-                restaurantId: +restaurant,
-                reviewId: +reviewId,
+                restaurantId: +restaurantId,
+                id: +reviewId,
             },
             select: {
+                id: true,
                 restaurantId: true,
-                reviewId: true,
                 content: true,
                 rate: true,
             },
@@ -31,18 +34,17 @@ export class ReviewsRepositoriy {
         return review;
     };
 
-    updateReview = async (restaurantId, reviewId, updatedData) => {
-        const updatedReview = await this.prisma.Reviews.update({
+    updateReview = async (userId, restaurantId, reviewId, updatedData) => {
+        await this.prisma.Reviews.update({
             where: {
                 id: +reviewId,
                 restaurantId: +restaurantId,
+                userId: +userId,
             },
             data: {
-                ...updatedata,
+                ...updatedData,
             },
         });
-
-        return updatedReview;
     };
 
     deleteReview = async (restaurantId, reviewId) => {
@@ -52,7 +54,5 @@ export class ReviewsRepositoriy {
                 restaurantId: +restaurantId,
             },
         });
-
-        return deletedReview;
     };
 }
