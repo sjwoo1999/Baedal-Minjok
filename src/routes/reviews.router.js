@@ -22,7 +22,7 @@ const authController = new AuthController(authService);
 router.post('/:restaurantId/review', authController.authMiddleWare, reviewsController.createReview);
 
 /** 리뷰 리스트 조회 **/
-router.get('/:restaurantId/review', reviewsController.getReviewList);
+// router.get('/:restaurantId/review', reviewsController.getReviewList);
 
 /** 리뷰 세부사항 조회 **/
 router.get('/:restaurantId/review/:reviewId', reviewsController.getReviewDetail);
