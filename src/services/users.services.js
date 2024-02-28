@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { EmailAlreadyExistsError, NotFoundError, InconsistencyError } from '../utils/err/err.js';
+import { AlreadyExistsError, NotFoundError, InconsistencyError } from '../utils/err/err.js';
 
 export class UsersServices {
     // 레포지토리 생성자
@@ -44,7 +44,7 @@ export class UsersServices {
         const isExistUser = await this.usersRepository.findByEmail(email);
 
         if (isExistUser) {
-            throw new EmailAlreadyExistsError('이미 등록된 이메일 주소입니다. 다른 이메일을 사용해주세요');
+            throw new AlreadyExistsError('이미 등록된 이메일 주소입니다. 다른 이메일을 사용해주세요');
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);

@@ -1,7 +1,7 @@
-export class EmailAlreadyExistsError extends Error {
+export class AlreadyExistsError extends Error {
     constructor(message) {
         super(message);
-        this.name = 'EmailAlreadyExistsError';
+        this.name = 'AlreadyExistsError';
     }
 }
 

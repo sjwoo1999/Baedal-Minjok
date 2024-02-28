@@ -3,13 +3,15 @@ import { prisma } from '../utils/prisma/index.js';
 import { OwnerService } from '../services/ownerRestaurant.service.js';
 import { OwnerRepository } from '../repositories/ownerRestaurant.repository.js';
 import { OwnerController } from '../controllers/ownerRestaurant.controller.js';
+import { RestaurantRepository } from '../repositories/restaurant.repository.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
 import { UsersRepositories } from '../repositories/users.repositories.js';
 
 const router = express.Router();
 const ownerRepository = new OwnerRepository(prisma);
-const ownerService = new OwnerService(ownerRepository);
+const restaurantRepository = new RestaurantRepository(prisma);
+const ownerService = new OwnerService(ownerRepository, restaurantRepository);
 const ownerController = new OwnerController(ownerService);
 
 const usersRepository = new UsersRepositories(prisma);
