@@ -11,6 +11,7 @@ export class RestaurantService {
         if (!restaurant) {
             throw new NotFoundError('해당 아이디를 가진 레스토랑이 존재하지 않습니다.');
         }
+
         return restaurant;
     };
 
