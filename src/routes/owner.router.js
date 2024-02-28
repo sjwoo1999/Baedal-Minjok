@@ -16,8 +16,10 @@ const usersRepository = new UsersRepositories(prisma);
 const authService = new AuthService(usersRepository);
 const authController = new AuthController(authService);
 
+// 레스토랑 생성
 router.post('/restaurant', authController.authMiddleWare, ownerController.createRestaurant);
 
+// 레스토랑 수정
 router.patch('/restaurant/:restaurantId', authController.authMiddleWare, ownerController.updateRestaurant);
 
 router.delete('/restaurant/:restaurantId', authController.authMiddleWare, ownerController.deleteRestaurant);

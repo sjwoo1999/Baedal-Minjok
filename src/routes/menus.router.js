@@ -9,10 +9,9 @@ const menusRepository = new MenusRepository(prisma);
 const menusService = new MenusService(menusRepository);
 const menusController = new MenusController(menusService);
 
-/* menu 전체 조회 */
-router.get('/restaurant/:restaurantId/menus', menusController.findMenus);
-
 /* menu 상세 조회 */
-router.get('/restaurant/menu', menusController.findOneMenu);
+router.get('/menu', menusController.findOneMenu);
+/* menu 전체 조회 */
+router.get('/:restaurantId/menus', menusController.findMenus);
 
 export default router;

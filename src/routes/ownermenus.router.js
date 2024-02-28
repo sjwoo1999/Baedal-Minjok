@@ -21,9 +21,9 @@ const menusController = new MenusController(menusService);
 router.post('/menu/:restaurantId', authController.authMiddleWare, menusController.createMenu);
 
 /* menu 수정 (사장님) */
-router.patch('/updatemenu', authController.authMiddleWare, menusController.updateMenu);
+router.patch('/menu', authController.authMiddleWare, menusController.updateMenu);
 
 /* menu 삭제 (사장님) */
-router.delete('/deletemenu', authController.authMiddleWare, menusController.deleteMenu);
+router.delete('/menu', authController.authMiddleWare, menusController.deleteMenu);
 
 export default router;
