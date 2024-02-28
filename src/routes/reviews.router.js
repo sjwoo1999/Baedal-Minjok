@@ -3,13 +3,13 @@
 import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
 import { ReviewsController } from '../controllers/reviews.controller.js';
-import { ReviewsServices } from '../services/restaurant.service.js';
-import { ReviewsRepositories } from '../repositories/reviews.repository.js';
+import { ReviewsServices } from '../services/reviews.services.js';
+import { ReviewsRepository } from '../repositories/reviews.repository.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
 const router = express.Router();
 
-const reviewsRepository = new ReviewsRepositories(prisma);
+const reviewsRepository = new ReviewsRepository(prisma);
 const reviewsService = new ReviewsServices(reviewsRepository);
 const reviewsController = new ReviewsController(reviewsService);
 

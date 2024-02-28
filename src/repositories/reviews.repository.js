@@ -1,4 +1,4 @@
-export class ReviewsRepositoriy {
+export class ReviewsRepository {
     // 프리즈마 생성자 생성
     constructor(prisma) {
         this.prisma = prisma;
