@@ -10,6 +10,9 @@ const restaurantController = new RestaurantController(restaurantService);
 
 router.get('/restaurant/:id', restaurantController.getRestaurantById);
 
-router.get('/restaurant/search', restaurantController.getRestaurantsByKind);
+router.get('/restaurant/kind', restaurantController.getRestaurantsByKind);
+
+//여기 searchTerm으로 갈꺼면, 위에 종류검색도 경로 바꿔줘야하는지??
+router.get('/restaurant/searchTerm', restaurantController.getRestaurantBySearchTerm);
 
 export default router;

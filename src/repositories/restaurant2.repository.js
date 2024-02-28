@@ -37,4 +37,64 @@ export class RestaurantRepository {
         }
         return restaurants;
     }
+
+    
+
+    getRestaurantsBySearchTerm = async (searchTerm) => {
+        const restaurants = await this.prisma.Restaurants.findMany({
+            where: {
+                OR: [
+                    {
+                        name: {
+                            contains: searchTerm
+                        }
+                    },
+                    {
+                        menus: {
+                            some: {
+                                OR: [
+                                    {
+                                        name: {
+                                            contains: searchTerm
+                                        }
+                                    },
+                                    {
+                                        menuInfo: {
+                                            contains: searchTerm
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            select: {
+                name: true,
+                kind: true,
+                callNumber: true,
+            },
+        })
+        if(!restaurants) {
+            throw {code:404, message: "해당 검색어를 포함하는 식당이 존재하지 않습니다."};
+        }
+        return restaurants;
+    }
+
+    compareUserAndRestaurant = async (ownerId, restaurantId) => {
+        const restaurant = await this.prisma.Restaurants.findFirst({
+            where: {
+                userId: +ownerId
+            },
+            select: {
+                id: true,
+            }
+        })
+
+        if (restaurant === restaurantId) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
