@@ -28,7 +28,7 @@ export class MenusController {
 
             const menu = await this.menusService.createMenu(id, restaurantId, name, menuInfo, price, image);
 
-            return res.status(201).json({ message: `${menu.name}이 등록되었습니다.` });
+            return res.status(201).json({ message: `${menu.name}이(가) 등록되었습니다.` });
         } catch (err) {
             next(err);
         }
