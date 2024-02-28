@@ -16,6 +16,7 @@ export class MenusRepository {
         return menu;
     };
 
+    // 상세메뉴를 하기 위해선 메뉴 아이디 필요함.
     findMenuByRestaurantId = async (restaurantId) => {
         const menu = await this.prisma.Menus.findFirst({
             where: {
@@ -65,14 +66,14 @@ export class MenusRepository {
         return menu;
     };
 
-    updateMenu = async (restaurantId, menuId, updatedata) => {
+    updateMenu = async (restaurantId, menuId, updatedData) => {
         const updatedMenu = await this.prisma.Menus.update({
             where: {
                 id: +menuId,
                 restaurantId: +restaurantId,
             },
             data: {
-                ...updatedata,
+                ...updatedData,
             },
         });
 

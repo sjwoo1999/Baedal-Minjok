@@ -3,6 +3,7 @@ import { prisma } from '../utils/prisma/index.js';
 import { RestaurantController } from '../controllers/restaurant.controller.js';
 import { RestaurantService } from '../services/restaurant.service.js';
 import { RestaurantRepository } from '../repositories/restaurant.repository.js';
+
 const router = express.Router();
 const restaurantRepository = new RestaurantRepository(prisma);
 const restaurantService = new RestaurantService(restaurantRepository);
@@ -31,5 +32,5 @@ router.get('/category', restaurantController.getRestaurantsByKind);
 router.get('/search', restaurantController.getRestaurantBySearch);
 
 // // 레스토랑 상세조회
-router.get('/:id', restaurantController.getRestaurantById);
+router.get('/detailRestaurant/:id', restaurantController.getRestaurantById);
 export default router;
