@@ -50,11 +50,11 @@ export class RestaurantController {
     };
 
     getRestaurants = async (req, res, next) => {
-        try{
+        try {
             const restaurants = await this.restaurantService.getRestaurants();
-            return res.status(200).json({data: restaurants});
+            return res.status(200).json({ data: restaurants });
         } catch (err) {
             next(err);
         }
-    }
+    };
 }

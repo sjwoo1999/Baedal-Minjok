@@ -16,14 +16,14 @@ export class MenusRepository {
         return menu;
     };
 
-    findMenuByName = async(name)=>{
+    findMenuByName = async (name) => {
         const menu = await this.prisma.Menus.findFirst({
-            where:{
-                name: name
-            }
-        })
+            where: {
+                name: name,
+            },
+        });
         return menu;
-    }
+    };
 
     findMenusByRestaurantId = async (restaurantId) => {
         const menus = await this.prisma.Menus.findMany({
@@ -46,7 +46,7 @@ export class MenusRepository {
         const menu = await this.prisma.Menus.findFirst({
             where: {
                 id: +menuId,
-                restaurantId: +restaurantId
+                restaurantId: +restaurantId,
             },
             select: {
                 id: true,
@@ -61,7 +61,6 @@ export class MenusRepository {
     };
 
     updateMenu = async (restaurantId, menuId, updatedData) => {
-
         const updatedMenu = await this.prisma.Menus.update({
             where: {
                 id: +menuId,
