@@ -30,7 +30,7 @@ router.get('/', restaurantController.getRestaurants);
 router.get('/category', restaurantController.getRestaurantsByKind);
 
 // 레스토랑 검색
-router.get('/search', restaurantController.getRestaurantBySearch);
+router.get('/search', restaurantController.getRestaurantsBySearch);
 
 // // 레스토랑 상세조회
 router.get('/detailRestaurant/:id', restaurantController.getRestaurantById);
