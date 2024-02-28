@@ -61,7 +61,7 @@ export class UsersController {
             const { email, userName, password, passwordCheck, address, type } = req.body;
 
             if (req.cookies.isEmailAuth !== 'true') {
-                return res.status(401).json({ errMessage: '이메일 인증이 되지 않았습니다. 이메인인증을 해주세요' });
+                return res.status(401).json({ errMessage: '이메일 인증이 되지 않았습니다. 이메일인증을 해주세요' });
             }
 
             if (!email || !userName || !password || !passwordCheck || !address || !type) {
