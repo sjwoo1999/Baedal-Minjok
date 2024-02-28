@@ -5,8 +5,6 @@ export class ReviewsRepository {
     }
 
     createReview = async (id, restaurantId, content, rate) => {
-        console.log('@@@@@@@@@');
-
         await this.prisma.Reviews.create({
             data: {
                 userId: +id,
@@ -54,5 +52,7 @@ export class ReviewsRepository {
                 restaurantId: +restaurantId,
             },
         });
+
+        return deleteReview;
     };
 }
