@@ -43,12 +43,8 @@ export class RestaurantRepository {
                 restaurantId: true,
             }
         });
-
-        console.log(findMenus);
     
         const restaurantIds = findMenus.map(menu => menu.restaurantId);
-        
-        console.log(restaurantIds);
 
         const findRestaurants = await this.prisma.Restaurants.findMany({
             where: {
@@ -65,9 +61,6 @@ export class RestaurantRepository {
                 restaurantInfo: true,
             },
         });
-
-        console.log(findRestaurants);
-    
         return findRestaurants;
     };
 
@@ -78,7 +71,8 @@ export class RestaurantRepository {
                 kind: true,
                 callNumber: true,
                 restaurantInfo: true,
-            }
+            },
+            take:20
         });
         return restaurants;
     }

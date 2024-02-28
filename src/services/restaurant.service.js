@@ -1,3 +1,5 @@
+import { NotFoundError } from '../utils/err/err.js';
+
 export class RestaurantService {
     constructor(restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
@@ -7,7 +9,7 @@ export class RestaurantService {
         const restaurant = await this.restaurantRepository.getRestaurantById(id);
 
         if (!restaurant) {
-            throw { code: 404, message: '해당 아이디를 가진 레스토랑이 조회되지 않습니다.' };
+            throw new NotFoundError('해당 아이디를 가진 레스토랑이 존재하지 않습니다.');
         }
         return restaurant;
     };
@@ -16,7 +18,7 @@ export class RestaurantService {
         const restaurants = await this.restaurantRepository.getRestaurantsByKind(kind);
 
         if (!restaurants) {
-            throw { code: 404, message: '해당 카테고리의 식당이 존재하지 않습니다.' };
+            throw new NotFoundError('해당 카테고리의 식당이 존재하지 않습니다.');
         }
 
         return restaurants;
@@ -24,10 +26,10 @@ export class RestaurantService {
 
     getRestaurantsBySearch = async (value) => {
         const restaurants = await this.restaurantRepository.getRestaurantsBySearch(value);
-
-        if (!restaurants) {
-            throw { code: 404, message: '해당 검색어를 포함하는 식당이 존재하지 않습니다.' };
+        if (restaurants.length === 0) {
+            throw new NotFoundError('키워드에 해당하는 식당이 존재하지 않습니다.');
         }
+
 
         return restaurants;
     };
