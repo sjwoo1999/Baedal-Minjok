@@ -35,7 +35,6 @@ model Restaurants {
   restaurantInfo  String         @map("resaurantInfo")  @db.Text
   sales           BigInt         @map("sales")
   orderCount      Int            @map("orderCount")
-  rate            Int            @map("rate")
 
   order           Orders[]
   review          Reviews[]
