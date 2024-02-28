@@ -2,9 +2,6 @@ export class OrdersController {
     constructor(ordersService) {
         this.ordersService = ordersService;
     }
-    createOrder = async (req, res, next) => {
-
-    }
 
     /* 사장이 매장의 주문 확인하는 메서드 */
     ownerGetOrders = async (req, res, next) => {
