@@ -20,12 +20,12 @@ const authController = new AuthController(authService);
 /* order 생성 */
 
 /* order 사장이 매장 주문들 확인*/
-router.get('', authController.authMiddleWare, ordersController.ownerGetOrders);
+router.get('/owner/:restaurantId', authController.authMiddleWare, ordersController.ownerGetOrders);
 
 /* order 고객이 자기 주문들 확인 */
-router.get('', authController.authMiddleWare, ordersController.guestGetOrder);
+router.get('/user', authController.authMiddleWare, ordersController.guestGetOrder);
 
 /* order 고객이나 사장이 특정 주문 확인 */
-router.get('', authController.authMiddleWare, ordersController.getOneOrder);
+router.get('/oneOrder/:orderId', authController.authMiddleWare, ordersController.getOneOrder);
 
 export default router;
