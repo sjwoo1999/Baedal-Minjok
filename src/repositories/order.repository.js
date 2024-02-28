@@ -15,8 +15,6 @@ export class OrderRepository {
             },
         });
 
-        // console.log('@@@@@@@@@@@@@@@@@');
-        console.log(createdOrder);
         return createdOrder;
     };
 
@@ -39,13 +37,9 @@ export class OrderRepository {
                     userId: +userId,
                 },
             });
-            console.log('userPoint.point => ', userPoint.point);
-            console.log(typeof userPoint.point);
-            console.log('totPrice => ', totPrice);
-            console.log(typeof totPrice);
+
             const updatePoint = userPoint.point - totPrice;
 
-            console.log('updatePoint => ', updatePoint);
             await tx.points.update({
                 where: {
                     id: userPoint.id,
@@ -55,6 +49,75 @@ export class OrderRepository {
                     point: updatePoint,
                 },
             });
+        });
+    };
+
+    findOrdersByRestaurantId = async (restaurantId) => {
+        const orders = await this.prisma.orders.findMany({
+            where: {
+                restaurantId: +restaurantId,
+            },
+        });
+
+        return orders;
+    };
+
+    findOrdersByUserId = async (userId) => {
+        const orders = await this.prisma.orders.findMany({
+            where: {
+                userId: +userId,
+            },
+        });
+        console.log('orders => @@@@@@@@@@@@', orders);
+        return orders;
+    };
+
+    findOneOrderByOrderId = async (orderId) => {
+        console.log('orderId => ', orderId);
+        const order = await this.prisma.orders.findFirst({
+            where: {
+                id: +orderId,
+            },
+        });
+
+        return order;
+    };
+
+    statusUpdateWithPoint = async (userId, orderId, status) => {
+        await this.prisma.$transaction(async (tx) => {
+            const order = await tx.orders.findFirst({
+                where: {
+                    id: +orderId,
+                },
+            });
+            const point = await tx.points.findFirst({
+                where: {
+                    id: +userId,
+                },
+            });
+
+            const updatePoint = point.point + parseFloat(order.totalPrice);
+
+            if (order.status === 'DELIVERED') {
+                await tx.orders.update({
+                    where: {
+                        id: +orderId,
+                    },
+                    data: {
+                        status: status,
+                    },
+                });
+
+                await tx.points.update({
+                    where: {
+                        id: +point.id,
+                        userId: +userId,
+                    },
+                    data: {
+                        point: updatePoint,
+                    },
+                });
+            }
         });
     };
 }

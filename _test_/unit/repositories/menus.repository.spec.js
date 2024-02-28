@@ -37,7 +37,7 @@ describe('Menus Repository Unit test', () => {
             createMenuIngredients.name,
             createMenuIngredients.menuInfo,
             createMenuIngredients.price,
-            createMenuIngredients.image  
+            createMenuIngredients.image
         );
 
         expect(createMenuData).toEqual(mockReturn);
@@ -45,7 +45,7 @@ describe('Menus Repository Unit test', () => {
         expect(mockPrisma.Menus.create).toHaveBeenCalledTimes(1);
 
         expect(mockPrisma.Menus.create).toHaveBeenCalledWith({
-            data:{
+            data: {
                 restaurantId: createMenuIngredients.restaurantId,
                 name: createMenuIngredients.name,
                 menuInfo: createMenuIngredients.menuInfo,
@@ -55,27 +55,108 @@ describe('Menus Repository Unit test', () => {
         });
     })
 
-    test('findMenusByRestaurantId Method test', async()=>{
-        const mockReturn = 'findMenus String Success';
+    test('findMenusByRestaurantId Method test', async () => {
+        const findMenusByRestaurantIdIngredient = {
+            restaurantId: 1
+        };
+        const returnFindMenusByRestaurantIdValue = {
+            id: 1,
+            restaurantId: 1,
+            name: "테스트용 메뉴 이름",
+            price: 1000,
+            image: "테스트용 메뉴 이미지"
+        }
 
-        mockPrisma.Menus.findMany.mockReturnValue(mockReturn);
+        mockPrisma.Menus.findMany.mockReturnValue(returnFindMenusByRestaurantIdValue);
 
-        const menus = await menusRepository.findMenusByRestaurantId();
-
-        expect(menus).toBe(mockReturn);
-
-        expect(menusRepository.prisma.Menus.findMany).toHaveBeenCalledTimes(1);
+        const menu = await menusRepository.findMenusByRestaurantId(findMenusByRestaurantIdIngredient.restaurantId);
+        expect(mockPrisma.Menus.findMany).toHaveBeenCalledTimes(1);
+        expect(menu).toHaveProperty('id');
+        expect(menu).toHaveProperty('restaurantId');
+        expect(menu).toHaveProperty('name');
+        expect(menu).toHaveProperty('price');
     })
 
-    test('findMenuByIds Method test', async()=>{
-        const mockReturn = 'findMenu String Success';
+    test('findMenuByIds Method test', async () => {
+        const findMenuByIdsIngredients = {
+            id: 1,
+            restaurantId: 1
+        };
+        const returnfindMenuByIdsValue = {
+            id: 1,
+            restaurantId: 1,
+            name: "테스트용 메뉴 이름",
+            menuInfo: "테스트용 메뉴 설명",
+            price: 1000,
+            image: "테스트용 메뉴 이미지"
+        }
 
-        mockPrisma.Menus.findFirst.mockReturnValue(mockReturn);
+        mockPrisma.Menus.findFirst.mockReturnValue(returnfindMenuByIdsValue);
 
-        const menu = await menusRepository.findMenuByIds();
+        const menu = await menusRepository.findMenuByIds(findMenuByIdsIngredients.id, findMenuByIdsIngredients.restaurantId);
 
-        expect(menu).toBe(mockReturn);
+        expect(mockPrisma.Menus.findFirst).toHaveBeenCalledTimes(1);
+        expect(menu).toBe(returnfindMenuByIdsValue);
+    })
 
-        expect(menusRepository.prisma.Menus.findFirst).toHaveBeenCalledTimes(1);
+    test('findMenuByName Method test', async()=>{
+        const findMenuByNameIngredient = {
+            name: "테스트용 메뉴 이름"
+        };
+        const returnfindMenuByNameValue = {
+            id:1,
+            restaurantId:1,
+            name:"테스트용 메뉴 이름",
+            menuInfo:"테스트용 메뉴 설명",
+            price: 10000,
+            image:"테스트용 메뉴 이미지"
+        }
+
+        mockPrisma.Menus.findFirst.mockReturnValue(returnfindMenuByNameValue);
+
+        const menu = await menusRepository.findMenuByIds(findMenuByNameIngredient.name);
+
+        expect(mockPrisma.Menus.findFirst).toHaveBeenCalledTimes(1);
+        expect(menu).toBe(returnfindMenuByNameValue);
+    })
+
+    test('updateMenu Method test', async()=>{
+        const updateMenuIngredients = {
+            restaurantId:1,
+            menuId:1,
+            updatedData:{
+                name:"수정된 이름",
+                menuInfo:"수정된 메뉴 정보",
+                price: 5000
+            }
+        }
+        const returnUpdateMenuValue = {
+            id:1,
+            restaurantId:1,
+            name:"수정된 이름",
+            menuInfo:"수정된 메뉴 정보",
+            price: 5000,
+            image:"테스트용 메뉴 이미지"
+        }
+        mockPrisma.Menus.update.mockReturnValue(returnUpdateMenuValue);
+        
+        const menu = await menusRepository.updateMenu(updateMenuIngredients.restaurantId, updateMenuIngredients.menuId, updateMenuIngredients.updatedData);
+
+        expect(mockPrisma.Menus.update).toHaveBeenCalledTimes(1);
+        expect(menu).toBe(returnUpdateMenuValue);
+    })
+
+    test('deleteMenu Method test', async()=>{
+        const sampleMenu = {
+            "id":1,
+            "restaurantId":1,
+            "name":"테스트 메뉴 이름",
+            "menuInfo":"테스트 메뉴 정보",
+            "price":10000,
+            "image":"테스트 메뉴 이미지"
+        }
+
+        const deletedMenu = await menusRepository.deleteMenu(1, 1);
+        expect(mockPrisma.Menus.delete).toHaveBeenCalledTimes(1);
     })
 })

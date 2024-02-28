@@ -15,6 +15,22 @@ export class ReviewsRepository {
         });
     };
 
+    findReviewList = async (restaurantId) => {
+        const reviewList = await this.prisma.Reviews.findMany({
+            where: {
+                restaurantId: +restaurantId,
+            },
+            select: {
+                id: true,
+                restaurantId: true,
+                content: true,
+                rate: true,
+            },
+        });
+
+        return reviewList;
+    };
+
     findReviewByReviewId = async (restaurantId, reviewId) => {
         const review = await this.prisma.Reviews.findFirst({
             where: {
