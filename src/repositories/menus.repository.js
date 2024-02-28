@@ -16,6 +16,15 @@ export class MenusRepository {
         return menu;
     };
 
+    findMenuByName = async(name)=>{
+        const menu = await this.prisma.Menus.findFirst({
+            where:{
+                name: name
+            }
+        })
+        return menu;
+    }
+
     findMenusByRestaurantId = async (restaurantId) => {
         const menus = await this.prisma.Menus.findMany({
             where: {

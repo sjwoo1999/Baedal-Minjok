@@ -21,6 +21,11 @@ export class MenusService {
             throw new ValidationError('자신의 식당의 메뉴만 작성할 수 있습니다.');
         }
 
+        const checkMenu = await this.menusRepository.findMenuByName(name);
+        if(checkMenu){
+            throw new ValidationError('이미 존재하는 메뉴입니다.');
+        }
+
         const menu = await this.menusRepository.createMenu(restaurantId, name, menuInfo, price, image);
 
         return menu;

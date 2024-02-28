@@ -14,7 +14,6 @@ export class MenusController {
             if(type !=="OWNER"){
                 return res.status(400).json({message:"사장만 할 수 있는 기능입니다."})
             }
-
             // 필요한 요소들 입력했는지 확인
             if (!name) {
                 return res.status(400).json({ message: '메뉴 이름을 작성하세요.' });
