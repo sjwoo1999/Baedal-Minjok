@@ -7,12 +7,10 @@ export class RestaurantRepository {
         const restaurant = await this.prisma.Restaurants.findFirst({
             where: { id: +id },
             select: {
-                id: true,
                 name: true,
                 callNumber: true,
                 kind: true,
                 restaurantInfo: true,
-                sales: true,
             },
         });
         return restaurant;
@@ -27,6 +25,7 @@ export class RestaurantRepository {
                 name: true,
                 kind: true,
                 callNumber: true,
+                restaurantInfo: true,
             },
         });
         return restaurants;
@@ -41,34 +40,47 @@ export class RestaurantRepository {
                             contains: value,
                         },
                     },
-                    // {
-                    //     menus: {
-                    //         some: {
-                    //             OR: [
-                    //                 {
-                    //                     name: {
-                    //                         contains: value,
-                    //                     },
-                    //                 },
-                    //                 {
-                    //                     menuInfo: {
-                    //                         contains: value,
-                    //                     },
-                    //                 },
-                    //             ],
-                    //         },
-                    //     },
-                    // },
+                    {
+                        menu: {
+                            some: {
+                                OR: [
+                                    {
+                                        name: {
+                                            contains: value,
+                                        },
+                                    },
+                                    {
+                                        menuInfo: {
+                                            contains: value,
+                                        },
+                                    },
+                                ],
+                            },
+                        },
+                    },
                 ],
             },
             select: {
                 name: true,
                 kind: true,
                 callNumber: true,
+                restaurantInfo: true,
             },
         });
         return restaurants;
     };
+
+    getRestaurants = async () => {
+        const restaurants = await this.prisma.Restaurants.findMany({
+            select: {
+                name: true,
+                kind: true,
+                callNumber: true,
+                restaurantInfo: true,
+            }
+        });
+        return restaurants;
+    }
 
     compareUserAndRestaurant = async (ownerId) => {
         const restaurant = await this.prisma.Restaurants.findFirst({

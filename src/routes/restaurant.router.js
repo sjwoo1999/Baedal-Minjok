@@ -24,6 +24,7 @@ const restaurantController = new RestaurantController(restaurantService);
 */
 
 // 모든 식장 조회
+router.get('/', restaurantController.getRestaurants);
 
 // 레스토랑 카테고리
 router.get('/category', restaurantController.getRestaurantsByKind);

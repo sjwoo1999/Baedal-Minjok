@@ -35,4 +35,14 @@ export class RestaurantService {
 
         return restaurants;
     };
+
+    getRestaurants = async () => {
+        const restaurants = await this.restaurantRepository.getRestaurants();
+
+        if(!restaurants) {
+            throw { code: 404, message: '식당 조회에 실패했습니다.'};
+        }
+
+        return restaurants;
+    }
 }

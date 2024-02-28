@@ -48,4 +48,13 @@ export class RestaurantController {
             next(err);
         }
     };
+
+    getRestaurants = async (req, res, next) => {
+        try{
+            const restaurants = await this.restaurantService.getRestaurants();
+            return res.status(200).json({data: restaurants});
+        } catch (err) {
+            next(err);
+        }
+    }
 }
