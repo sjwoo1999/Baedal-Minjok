@@ -11,6 +11,12 @@ export class ReviewsServices {
         await this.reviewsRepository.createReview(id, restaurantId, content, rate);
     };
 
+    findReviewList = async (restaurantId) => {
+        const reviewList = await this.reviewsRepository.findReviewList(restaurantId);
+
+        return reviewList;
+    };
+
     findOneReview = async (restaurantId, reviewId) => {
         const review = await this.reviewsRepository.findReviewByReviewId(restaurantId, reviewId);
 
