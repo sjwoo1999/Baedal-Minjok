@@ -14,7 +14,6 @@ export default function (err, req, res, next) {
         case 'RangeError':
             console.log(err.message);
             return res.status(400).json({ errMessage: err.message }); // 숫자값이 허용된 범위 벗어남
-
         case 'EmailAlreadyExistsError':
             console.log(err.message);
             return res.status(407).json({ errMessage: err.message }); // 이메일 중복일시 에러

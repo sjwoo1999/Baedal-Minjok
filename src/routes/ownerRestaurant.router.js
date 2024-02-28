@@ -1,8 +1,8 @@
 import express from 'express';
 import { prisma } from '../utils/prisma/index.js';
-import { OwnerService } from '../services/owner.service.js';
-import { OwnerRepository } from '../repositories/owner.repository.js';
-import { OwnerController } from '../controllers/owner.controller.js';
+import { OwnerService } from '../services/ownerRestaurant.service.js';
+import { OwnerRepository } from '../repositories/ownerRestaurant.repository.js';
+import { OwnerController } from '../controllers/ownerRestaurant.controller.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
 import { UsersRepositories } from '../repositories/users.repositories.js';

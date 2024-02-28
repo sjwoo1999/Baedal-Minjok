@@ -32,34 +32,11 @@ export class RestaurantRepository {
     };
 
     getRestaurantBySearch = async (value) => {
-        const restaurants = await this.prisma.Restaurants.findMany({
+        const findRestaurants = await this.prisma.Restaurants.findMany({
             where: {
-                OR: [
-                    {
-                        name: {
-                            contains: value,
-                        },
-                    },
-                    {
-                        menu: {
-                            some: {
-                                OR: [
-                                    {
-                                        name: {
-                                            contains: value,
-                                        },
-                                    },
-                                    {
-                                        menuInfo: {
-                                            contains: value,
-                                        },
-                                    },
-                                ],
-                            },
-                        },
-                    },
-                ],
+            name: {contains: value}
             },
+
             select: {
                 name: true,
                 kind: true,
@@ -67,8 +44,27 @@ export class RestaurantRepository {
                 restaurantInfo: true,
             },
         });
-        return restaurants;
+
+        const findMenu = await this.prisma.Menus.findMany({
+            where: {
+                    OR: 
+                    [
+                        { name: { contains: value } },
+                        { menuInfo: { contains: value } },
+                    ]
+            },
+
+            select: {
+                name: true,
+                kind: true,
+                callNumber: true,
+                restaurantInfo: true,
+            }
+        })
+
+        return {findRestaurants, findMenu};
     };
+
 
     getRestaurants = async () => {
         const restaurants = await this.prisma.Restaurants.findMany({
@@ -82,7 +78,8 @@ export class RestaurantRepository {
         return restaurants;
     }
 
-    compareUserAndRestaurant = async (ownerId) => {
+    findRestaurantByUserId = async (ownerId) => {
+
         const restaurant = await this.prisma.Restaurants.findFirst({
             where: {
                 userId: +ownerId,
@@ -91,7 +88,6 @@ export class RestaurantRepository {
                 id: true,
             },
         });
-
         return restaurant;
     };
 }

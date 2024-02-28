@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { InconsistencyError, NotFoundError, ValidationError } from '../utils/err/err.js';
 
 export class MenusService {
     constructor(menusRepository, usersRepository, restaurantRepository) {
@@ -8,7 +9,7 @@ export class MenusService {
     }
 
     createMenu = async (userId, restaurantId, name, menuInfo, price, image) => {
-        let validation = await this.restaurantRepository.compareUserAndRestaurant(userId);
+        let validation = await this.restaurantRepository.findRestaurantByUserId(userId);
 
         if (validation.id === +restaurantId) {
             validation = true;
@@ -17,7 +18,12 @@ export class MenusService {
         }
 
         if (!validation) {
-            throw { code: 400, message: '자신의 식당의 메뉴만 작성할 수 있습니다.' };
+            throw new ValidationError('자신의 식당의 메뉴만 작성할 수 있습니다.');
+        }
+
+        const checkMenu = await this.menusRepository.findMenuByName(name);
+        if (checkMenu) {
+            throw new ValidationError('이미 존재하는 메뉴입니다.');
         }
 
         const menu = await this.menusRepository.createMenu(restaurantId, name, menuInfo, price, image);
@@ -28,20 +34,23 @@ export class MenusService {
     findAllMenus = async (restaurantId) => {
         const menus = await this.menusRepository.findMenusByRestaurantId(restaurantId);
 
-        // 에러처리 -> 메뉴가 없다면 메뉴가 없습니다. 메시지 반환
+        if (!menus) {
+            throw new NotFoundError('해당 메뉴가 존재하지 않습니다.');
+        }
 
         return menus;
     };
 
-    // 메뉴 아이디 안가져옴!!!! 메뉴아이디 추가 !!!
-    findOneMenu = async (restaurantId) => {
-        const menu = await this.menusRepository.findMenuByRestaurantId(restaurantId);
-
+    findOneMenu = async (restaurantId, menuId) => {
+        const menu = await this.menusRepository.findMenuByIds(restaurantId, menuId);
+        if (!menu) {
+            throw new NotFoundError('해당 메뉴가 존재하지 않습니다.');
+        }
         return menu;
     };
 
     updatedMenu = async (userId, restaurantId, menuId, updatedData) => {
-        let validation = await this.restaurantRepository.compareUserAndRestaurant(userId);
+        let validation = await this.restaurantRepository.findRestaurantByUserId(userId);
 
         if (validation.id === +restaurantId) {
             validation = true;
@@ -50,7 +59,19 @@ export class MenusService {
         }
 
         if (!validation) {
-            throw { code: 400, message: '자신의 식당의 메뉴만 수정할 수 있습니다.' };
+            throw new ValidationError('자신의 식당의 메뉴만 작성할 수 있습니다.');
+        }
+
+        if (updatedData.name) {
+            const checkMenu = await this.menusRepository.findMenuByName(updatedData.name);
+            if (checkMenu) {
+                throw new ValidationError('이미 존재하는 메뉴 이름입니다.');
+            }
+        }
+
+        const menu = await this.menusRepository.findMenuByIds(restaurantId, menuId);
+        if (!menu) {
+            throw new NotFoundError('수정하려는 메뉴가 존재하지 않습니다.');
         }
 
         await this.menusRepository.updateMenu(restaurantId, menuId, updatedData);
@@ -61,11 +82,15 @@ export class MenusService {
 
         const comparison = await bcrypt.compare(password.password, user.password);
 
-        // 에러 클래스 미들웨어 사용해보기
         if (!comparison) {
-            throw { code: 400, message: '자신의 식당의 메뉴만 삭제가 가능합니다.' };
+            throw new InconsistencyError('비밀번호가 일치하지 않습니다. 다시 입력해주세요.');
         }
 
-        const menu = await this.menusRepository.deleteMenu(restaurantId, menuId);
+        const menu = await this.menusRepository.findMenuByIds(restaurantId, menuId);
+        if (!menu) {
+            throw new NotFoundError('삭제하려는 메뉴가 존재하지 않습니다.');
+        }
+
+        await this.menusRepository.deleteMenu(restaurantId, menuId);
     };
 }

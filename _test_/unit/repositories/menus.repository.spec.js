@@ -1,7 +1,5 @@
-import bcrypt from 'bcrypt';
-import { MenusRepository } from '../../../src/repositories/menus.repository';
+import { MenusRepository } from '../../../src/repositories/menus.repository.js';
 import { describe, jest } from '@jest/globals';
-
 
 let mockPrisma = {
     Menus: {
@@ -10,12 +8,6 @@ let mockPrisma = {
         findMany: jest.fn(),
         update: jest.fn(),
         delete: jest.fn()
-    },
-    Restaurants: {
-        findFirst: jest.fn()
-    },
-    Users: {
-        findFirst: jest.fn()
     }
 };
 
@@ -26,7 +18,7 @@ describe('Menus Repository Unit test', () => {
         jest.resetAllMocks(); // 모든 Mock을 초기화합니다.
     });
 
-    test('createMenu Method', async () => {
+    test('createMenu Method test', async () => {
         // 목표로 하는 반환값
         const mockReturn = 'create Menu Return String';
         mockPrisma.Menus.create.mockReturnValue(mockReturn);
@@ -63,10 +55,27 @@ describe('Menus Repository Unit test', () => {
         });
     })
 
-    // test('CompareUserAndRestaurant Method true 반환 테스트', async()=>{
-    //     // user의 아이디와 restaurant의 아이디를 같게 지정해준다.
-    //     // 둘을 비교하여 true가 도출되도록 한다.
-    //     const mockReturn = 'true';
-        
-    // })
+    test('findMenusByRestaurantId Method test', async()=>{
+        const mockReturn = 'findMenus String Success';
+
+        mockPrisma.Menus.findMany.mockReturnValue(mockReturn);
+
+        const menus = await menusRepository.findMenusByRestaurantId();
+
+        expect(menus).toBe(mockReturn);
+
+        expect(menusRepository.prisma.Menus.findMany).toHaveBeenCalledTimes(1);
+    })
+
+    test('findMenuByIds Method test', async()=>{
+        const mockReturn = 'findMenu String Success';
+
+        mockPrisma.Menus.findFirst.mockReturnValue(mockReturn);
+
+        const menu = await menusRepository.findMenuByIds();
+
+        expect(menu).toBe(mockReturn);
+
+        expect(menusRepository.prisma.Menus.findFirst).toHaveBeenCalledTimes(1);
+    })
 })
