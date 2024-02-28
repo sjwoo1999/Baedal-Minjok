@@ -100,7 +100,6 @@ export class MenusController {
             const menuId = req.query.menuId;
             const password = req.body;
             const { id } = req.user;
-
             // 사장인지 타입 확인한후 에러 던짐
 
             if (!restaurantId)

@@ -4,13 +4,15 @@ export class ReviewsRepository {
         this.prisma = prisma;
     }
 
-    createReview = async (userId, restaurantId, content, rate) => {
+    createReview = async (id, restaurantId, content, rate) => {
+        console.log('@@@@@@@@@');
+
         await this.prisma.Reviews.create({
             data: {
-                userId: +userId,
+                userId: +id,
                 restaurantId: +restaurantId,
                 content,
-                rate,
+                rate: +rate,
             },
         });
     };
@@ -18,12 +20,12 @@ export class ReviewsRepository {
     findReviewByReviewId = async (restaurantId, reviewId) => {
         const review = await this.prisma.Reviews.findFirst({
             where: {
-                restaurantId: +restaurant,
-                reviewId: +reviewId,
+                restaurantId: +restaurantId,
+                id: +reviewId,
             },
             select: {
+                id: true,
                 restaurantId: true,
-                reviewId: true,
                 content: true,
                 rate: true,
             },
@@ -32,18 +34,17 @@ export class ReviewsRepository {
         return review;
     };
 
-    updateReview = async (restaurantId, reviewId, updatedData) => {
-        const updatedReview = await this.prisma.Reviews.update({
+    updateReview = async (userId, restaurantId, reviewId, updatedData) => {
+        await this.prisma.Reviews.update({
             where: {
                 id: +reviewId,
                 restaurantId: +restaurantId,
+                userId: +userId,
             },
             data: {
-                ...updatedata,
+                ...updatedData,
             },
         });
-
-        return updatedReview;
     };
 
     deleteReview = async (restaurantId, reviewId) => {
@@ -53,7 +54,5 @@ export class ReviewsRepository {
                 restaurantId: +restaurantId,
             },
         });
-
-        return deletedReview;
     };
 }
