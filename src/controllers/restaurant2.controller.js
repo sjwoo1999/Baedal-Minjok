@@ -30,4 +30,19 @@ export class RestaurantController {
             next(err);
         }
     }
+    
+    // 검색어로 검색
+    getRestaurantBySearchTerm = async (req, res, next) => {
+        try{
+            const {searchTerm} = req.query;
+            if(!searchTerm) {
+                return res.status(400).json({message: "검색어를 입력해주세요."});
+            }
+            const restaurants = await this.restaurantService.getRestaurantBy(searchTerm);
+            
+            return res.status(200).json({data : restaurants});
+        } catch (err) {
+            next(err);
+        }
+    } 
 }

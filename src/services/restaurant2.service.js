@@ -12,4 +12,9 @@ export class RestaurantService {
         const restaurants = await this.restaurantRepository.getRestaurantsByKind(kind);
         return restaurants;
     }
+
+    getRestaurantsBySearchTerm = async (searchTerm) => {
+        const restaurants = await this.restaurantRepository.getRestaurantsBySearchTerm(searchTerm);
+        return restaurants;
+    }
 }
