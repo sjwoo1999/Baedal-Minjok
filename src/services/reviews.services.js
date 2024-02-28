@@ -18,7 +18,7 @@ export class ReviewsServices {
     };
 
     updateReview = async (userId, restaurantId, reviewId, updatedData) => {
-        const review = await this.reviewsRepository.updateReview(userId, restaurantId, reviewId, updatedData);
+        await this.reviewsRepository.updateReview(userId, restaurantId, reviewId, updatedData);
     };
 
     deleteReview = async (userId, restaurantId, reviewId, password) => {
