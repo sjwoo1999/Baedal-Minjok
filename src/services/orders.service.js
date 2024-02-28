@@ -27,7 +27,7 @@ export class OrdersService {
     findOneOrder = async(userId, orderId)=>{
         const user = await this.usersRepositories.findById(userId);
         const orderUser = await this.ordersRepository.findOrdersByUserId(userId);
-        
+
         if(user.type !=="OWNER" || +userId !==orderUser.userId){
             throw new ValidationError('사장과 주문한 고객만 확인할 수 있습니다.');
         }

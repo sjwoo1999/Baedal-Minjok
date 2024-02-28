@@ -87,6 +87,7 @@ export class RestaurantRepository {
                 id: true,
             },
         });
+        console.log(restaurant);
         return restaurant;
     };
 }

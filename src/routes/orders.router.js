@@ -1,7 +1,7 @@
 import express from 'express';
-import { OrdersController, OrdersController } from '../controllers/orders.controller';
-import { OrdersService } from '../services/orders.service';
-import { OrdersRepository } from '../repositories/orders.repository';
+import { OrdersController} from '../controllers/orders.controller.js';
+import { OrdersService } from '../services/orders.service.js';
+import { OrdersRepository } from '../repositories/orders.repository.js';
 import { RestaurantRepository } from '../repositories/restaurant.repository.js';
 import { UsersRepositories } from '../repositories/users.repositories.js';
 import {prisma} from '../utils/prisma/index.js';

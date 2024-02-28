@@ -146,4 +146,17 @@ describe('Menus Repository Unit test', () => {
         expect(menu).toBe(returnUpdateMenuValue);
     })
 
+    test('deleteMenu Method test', async()=>{
+        const sampleMenu = {
+            "id":1,
+            "restaurantId":1,
+            "name":"테스트 메뉴 이름",
+            "menuInfo":"테스트 메뉴 정보",
+            "price":10000,
+            "image":"테스트 메뉴 이미지"
+        }
+
+        const deletedMenu = await menusRepository.deleteMenu(1, 1);
+        expect(mockPrisma.Menus.delete).toHaveBeenCalledTimes(1);
+    })
 })
