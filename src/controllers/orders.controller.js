@@ -49,4 +49,22 @@ export class OrdersController {
             next(err);
         }
     }
+
+    /* 사장이나 그 주문을 주문한 고객이 주문 1개를 확인하는 메서드 */
+    getOneOrder = async(req,res,next)=>{
+        try{
+            const {id} = req.user;
+            const orderId = req.params;
+
+            if(!orderId){
+                return res.status(400).json({message:"찾으려는 주문 아이디를 입력하세요."});
+            }
+
+            const order = await this.ordersService.findOneOrder(id, orderId);
+
+            return res.status(200).json({data: order});
+        }catch(err){
+            next(err);
+        }
+    }
 }
