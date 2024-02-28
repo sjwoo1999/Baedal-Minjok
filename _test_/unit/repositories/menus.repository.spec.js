@@ -119,4 +119,31 @@ describe('Menus Repository Unit test', () => {
         expect(mockPrisma.Menus.findFirst).toHaveBeenCalledTimes(1);
         expect(menu).toBe(returnfindMenuByNameValue);
     })
+
+    test('updateMenu Method test', async()=>{
+        const updateMenuIngredients = {
+            restaurantId:1,
+            menuId:1,
+            updatedData:{
+                name:"수정된 이름",
+                menuInfo:"수정된 메뉴 정보",
+                price: 5000
+            }
+        }
+        const returnUpdateMenuValue = {
+            id:1,
+            restaurantId:1,
+            name:"수정된 이름",
+            menuInfo:"수정된 메뉴 정보",
+            price: 5000,
+            image:"테스트용 메뉴 이미지"
+        }
+        mockPrisma.Menus.update.mockReturnValue(returnUpdateMenuValue);
+        
+        const menu = await menusRepository.updateMenu(updateMenuIngredients.restaurantId, updateMenuIngredients.menuId, updateMenuIngredients.updatedData);
+
+        expect(mockPrisma.Menus.update).toHaveBeenCalledTimes(1);
+        expect(menu).toBe(returnUpdateMenuValue);
+    })
+
 })
