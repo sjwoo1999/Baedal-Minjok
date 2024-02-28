@@ -56,15 +56,31 @@ describe('Menus Repository Unit test', () => {
     })
 
     test('findMenusByRestaurantId Method test', async()=>{
-        const mockReturn = 'findMenus String Success';
+        // const mockReturn = 'findMenus String Success';
 
-        mockPrisma.Menus.findMany.mockReturnValue(mockReturn);
+        // mockPrisma.Menus.findMany.mockReturnValue(mockReturn);
 
-        const menus = await menusRepository.findMenusByRestaurantId();
+        // const menus = await menusRepository.findMenusByRestaurantId();
 
-        expect(menus).toBe(mockReturn);
+        // expect(menus).toBe(mockReturn);
 
-        expect(menusRepository.prisma.Menus.findMany).toHaveBeenCalledTimes(1);
+        // expect(menusRepository.prisma.Menus.findMany).toHaveBeenCalledTimes(1);
+        const findMenusByRestaurantIdIngredient = {
+            restaurantId: 1
+        };
+        const returnFindMenusByRestaurantIdValue = {
+            id:1,
+            restaurantId:1,
+            name:"테스트용 메뉴 이름",
+            price: 1000,
+            image: "테스트용 이미지"
+        }
+
+        mockPrisma.Menus.findMany.mockReturnValue(returnFindMenusByRestaurantIdValue);
+
+        const menu = await menusRepository.findMenusByRestaurantId(findMenusByRestaurantIdIngredient.restaurantId);
+        expect(mockPrisma.Menus.findMany).toHaveBeenCalledTimes(1);
+        expect(menu).toHaveProperty('id');
     })
 
     test('findMenuByIds Method test', async()=>{

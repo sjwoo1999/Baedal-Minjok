@@ -10,9 +10,6 @@ export class RestaurantService {
             throw { code: 404, message: '해당 아이디를 가진 레스토랑이 조회되지 않습니다.' };
         }
 
-        // bigint를 json에서 데이터를 표현하려면 toString으로 변환 해주어야함.
-        restaurant.sales = restaurant.sales.toString;
-
         return restaurant;
     };
 

@@ -11,8 +11,6 @@ export class RestaurantRepository {
                 name: true,
                 callNumber: true,
                 kind: true,
-                restaurantInfo: true,
-                sales: true,
             },
         });
         return restaurant;
