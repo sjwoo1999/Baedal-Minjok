@@ -1,74 +1,57 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { ReviewsRepository } from '../repositories/reviews.repository.js';
-
 export class ReviewsServices {
-    constructor(reviewsRepository) {
+    constructor(reviewsRepository, usersRepository, restaurantRepository) {
         this.reviewsRepository = reviewsRepository;
+        this.usersRepository = usersRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
-    createdReview = async (userId, restaurant, content, rate) => {
-        return { json };
+    createReview = async (userId, restaurantId, content, rate) => {
+        const validation = await this.usersRepository.isGuest(userId);
+        if (!validation) {
+            throw { code: 400, message: '사장님은 리뷰를 작성할 수 없습니다!' };
+        }
+
+        const review = await this.reviewsRepository.createReview(restaurantId, content, rate);
+
+        return review;
     };
 
-    getReviewDetail = async (restaurantId, reviewId) => {
-        return { json };
+    findOneReview = async (restaurantId, reviewId) => {
+        if (!restaurantId) throw { code: 400, message: '올바르지 않은 식당 코드입니다!' };
+        const review = await this.reviewsRepository.findReviewByReviewId(reviewId);
+
+        return review;
     };
 
-    updateReview = async (userId, restaurantId, revieId, updatedData) => {
-        return { json };
+    updateReview = async (userId, restaurantId, reviewId, update) => {
+        const validation = await this.usersRepository.isGuest(userId);
+        if (!validation) {
+            throw { code: 400, message: '사장님은 리뷰를 수정할 수 없습니다!' };
+        }
+
+        const comparsion = await this.usersRepository.comparePassword(userId, password);
+        if (!comparision) {
+            throw { code: 400, message: '권한이 없는 사용자입니다!' };
+        }
+
+        const review = await this.reviewsRepository.updateReview(restaurantId, reviewId, updatedData);
+
+        return review;
     };
 
     deleteReview = async (userId, restaurantId, reviewId, password) => {
-        return { json };
+        const validation = await this.usersRepository.isGuest(userId);
+        if (!validation) {
+            throw { code: 400, message: '사장님은 리뷰를 수정할 수 없습니다!' };
+        }
+
+        const comparsion = await this.usersRepository.comparePassword(userId, password);
+        if (!comparision) {
+            throw { code: 400, message: '권한이 없는 사용자입니다!' };
+        }
+
+        const review = await this.reviewsRepository.deleteReview(restaurantId, reviewId);
+
+        return review;
     };
-
-    /*
-
-    // POST
-    createReview = async () => {
-        // 저장소(Repository)에게 데이터를 요청합니다.
-        // Restaurant가 갖고 있는 리뷰 목록에 리뷰를 작성할 수 있도록 해야 한다.
-        const createdReview = await this.RestaurantRepository.createReview(userId, restaurantId, content, rate);
-
-        // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-        return {
-            userId: createdReview.userId,
-            restaurantId: createdReview.restaurantId,
-            content: createdReview.content,
-            rate: createdReview.rate,
-            createdAt: createdReview.createdAt,
-            updatedAt: createdReview.updatedAt,
-        };
-    };
-
-    // GET
-    getReviews = async () => {
-        // 저장소(Repository)에게 데이터를 요청합니다.
-        // Restaurant가 갖고 있는 리뷰 목록을 조회할 수 있도록 해야 한다.
-
-        // 리뷰 목록 조회 - 리뷰 상세 조회 - 이거 아직 구분이 안 된 거 같은데?
-
-        // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-        return { json };
-    };
-
-    // PATCH
-    updateReview = async () => {
-        // 저장소(Repository)에게 데이터를 요청합니다.
-        // req에서 전달받은 리뷰 id에 해당하는 리뷰에 접근하고 수정할 수 있도록 해야 한다.
-
-        // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-        return { json };
-    };
-
-    // DELETE
-    deleteReview = async () => {
-        // 저장소(Repository)에게 데이터를 요청합니다.
-        // req에서 전달받은 리뷰 id에 해당하는 리뷰에 접근하고 삭제할 수 있도록 해야 한다.
-
-        // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공합니다.
-        return { json };
-    };
-    */
 }

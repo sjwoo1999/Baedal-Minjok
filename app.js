@@ -1,5 +1,4 @@
 import express from 'express';
-import MenusRouter from './src/routes/menus.router.js';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import router from './src/routes/index.js';
@@ -14,7 +13,7 @@ const PORT = 4000;
 app.use(LogMiddleware);
 app.use(express.json());
 app.use(cookieParser());
-app.use('/api', router, MenusRouter);
+app.use('/api', router);
 app.use(ErrorHandlingMiddleware);
 
 app.listen(PORT, () => {

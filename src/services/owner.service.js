@@ -3,10 +3,10 @@ export class OwnerService {
         this.ownerRepository = ownerRepository;
     }
 
-    isOwner = async (ownerId) => {
-        const isOwner = await this.ownerRepository.isOwner(ownerId);
-        return isOwner;
-    };
+    // isOwner = async (ownerId) => {
+    //     const isOwner = await this.ownerRepository.isOwner(ownerId);
+    //     return isOwner;
+    // };
 
     createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount, rate) => {
         const restaurant = await this.ownerRepository.createRestaurant(
@@ -23,12 +23,10 @@ export class OwnerService {
     };
 
     updateRestaurant = async (restaurantId, updateData) => {
-        const updateRestaurant = await this.ownerRepository.updateRestaurant(
-            restaurantId,
-            updateData,
-        );
+        const updateRestaurant = await this.ownerRepository.updateRestaurant(restaurantId, updateData);
         return updateRestaurant;
     };
+
     findRestaurantById = async (restaurantId) => {
         const restaurant = await this.ownerRepository.findRestaurantById(restaurantId);
         return restaurant;

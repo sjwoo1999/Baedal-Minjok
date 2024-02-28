@@ -5,7 +5,7 @@ import { MenusRepository } from '../repositories/menus.repository.js';
 import { prisma } from '../utils/prisma/index.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
-import { RestaurantRepository } from '../repositories/restaurant2.repository.js';
+import { RestaurantRepository } from '../repositories/restaurant.repository.js';
 import { UsersRepositories } from '../repositories/users.repositories.js';
 
 const router = express.Router();
@@ -18,12 +18,12 @@ const menusService = new MenusService(menusRepository, usersRepository, restaura
 const menusController = new MenusController(menusService);
 
 /* menu 생성 (사장님) */
-router.post('/restaurant/:restaurantId/menu', authController.authMiddleWare, menusController.createMenu);
+router.post('/menu/:restaurantId', authController.authMiddleWare, menusController.createMenu);
 
 /* menu 수정 (사장님) */
-router.patch('/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.updateMenu);
+router.patch('/menu', authController.authMiddleWare, menusController.updateMenu);
 
 /* menu 삭제 (사장님) */
-router.delete('/restaurant/:restaurantId/menu/:menuId', authController.authMiddleWare, menusController.deleteMenu);
+router.delete('/menu', authController.authMiddleWare, menusController.deleteMenu);
 
 export default router;

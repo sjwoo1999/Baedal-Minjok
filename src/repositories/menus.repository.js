@@ -8,85 +8,86 @@ export class MenusRepository {
             data: {
                 restaurantId: +restaurantId,
                 name,
-                menuInfo,   
+                menuInfo,
                 price: +price,
-                image
-            }
+                image,
+            },
         });
         return menu;
-    }
+    };
 
+    // 상세메뉴를 하기 위해선 메뉴 아이디 필요함.
     findMenuByRestaurantId = async (restaurantId) => {
         const menu = await this.prisma.Menus.findFirst({
             where: {
-                restaurantId: +restaurantId
+                restaurantId: +restaurantId,
             },
             select: {
                 restaurantId: true,
                 name: true,
                 menuInfo: true,
                 price: true,
-                image: true
-            }
-        })
+                image: true,
+            },
+        });
 
         return menu;
-    }
+    };
 
     findMenusByRestaurantId = async (restaurantId) => {
         const menus = await this.prisma.Menus.findMany({
             where: {
-                restaurantId: +restaurantId
+                restaurantId: +restaurantId,
             },
             select: {
                 restaurantId: true,
                 name: true,
                 price: true,
-                image: true
-            }
-        })
+                image: true,
+            },
+        });
 
         return menus;
-    }
+    };
 
     findMenuById = async (menuId) => {
         const menu = await this.prisma.Menus.findFirst({
             where: {
-                id: +menuId
+                id: +menuId,
             },
             select: {
                 restaurantId: true,
                 name: true,
                 menuInfo: true,
                 price: true,
-                image: true
-            }
-        })
+                image: true,
+            },
+        });
         return menu;
-    }
+    };
 
-    updateMenu = async (restaurantId, menuId, updatedata) => {
+    updateMenu = async (restaurantId, menuId, updatedData) => {
         const updatedMenu = await this.prisma.Menus.update({
             where: {
                 id: +menuId,
-                restaurantId: +restaurantId
+                restaurantId: +restaurantId,
             },
             data: {
-                ...updatedata
-            }
+                ...updatedData,
+            },
         });
 
         return updatedMenu;
-    }
+    };
 
     deleteMenu = async (restaurantId, menuId) => {
         const deletedMenu = await this.prisma.Menus.delete({
             where: {
                 id: +menuId,
-                restaurantId: +restaurantId
-            }
-        })
+                restaurantId: +restaurantId,
+            },
+        });
 
         return deletedMenu;
-    }
+    };
 }
