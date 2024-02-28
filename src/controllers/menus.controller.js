@@ -83,14 +83,14 @@ export class MenusController {
             // const { restaurantId, menuId } = req.params;
             const restaurantId = req.query.restaurantId;
             const menuId = req.query.menuId;
-            const updatedData = req.body;
+            const {name, price, menuInfo} = req.body;
             const { id } = req.user;
 
             if (!id) return res.status(400).json({ message: "로그인을 다시 하세요." });
             if (!restaurantId) return res.status(401).json({ message: "수정하려는 레스토랑의 아이디를 입력하지 않았습니다." });
             if (!menuId) return res.status(401).json({ message: "수정하려는 메뉴의 아이디를 입력하지 않았습니다." });
 
-            await this.menusService.updatedMenu(id, restaurantId, menuId, updatedData);
+            await this.menusService.updatedMenu(id, restaurantId, menuId, name, price, menuInfo);
             return res.status(201).json({ message: "메뉴 수정에 성공하였습니다." });
         } catch (err) {
             next(err);

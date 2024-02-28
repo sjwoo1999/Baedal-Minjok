@@ -30,13 +30,12 @@ export class MenusService {
         return menu;
     }
 
-    updatedMenu = async (userId, restaurantId, menuId, updatedData) => {
+    updatedMenu = async (userId, restaurantId, menuId, name, price, menuInfo) => {
         const validation = await this.restaurantRepository.compareUserAndRestaurant(userId, restaurantId);
         if (!validation) {
             throw { code: 400, message: "자신의 식당의 메뉴만 수정할 수 있습니다." };
         }
-
-        const menu = await this.menusRepository.updateMenu(restaurantId, menuId, updatedData);
+        const menu = await this.menusRepository.updateMenu(restaurantId, menuId, name, price, menuInfo);
         return menu;
     }
 

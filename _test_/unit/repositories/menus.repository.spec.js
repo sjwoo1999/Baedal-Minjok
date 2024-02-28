@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
-import { MenusRepository } from '../../../src/repositories/menus.repository';
+import { MenusRepository } from '../../../src/repositories/menus.repository.js';
 import { describe, jest } from '@jest/globals';
-
 
 let mockPrisma = {
     Menus: {
@@ -10,12 +9,6 @@ let mockPrisma = {
         findMany: jest.fn(),
         update: jest.fn(),
         delete: jest.fn()
-    },
-    Restaurants: {
-        findFirst: jest.fn()
-    },
-    Users: {
-        findFirst: jest.fn()
     }
 };
 
@@ -63,10 +56,10 @@ describe('Menus Repository Unit test', () => {
         });
     })
 
-    // test('CompareUserAndRestaurant Method true 반환 테스트', async()=>{
-    //     // user의 아이디와 restaurant의 아이디를 같게 지정해준다.
-    //     // 둘을 비교하여 true가 도출되도록 한다.
-    //     const mockReturn = 'true';
+    test('findMenuByRestaurantId Method true 반환 테스트', async()=>{
+        // user의 아이디와 restaurant의 아이디를 같게 지정해준다.
+        // 둘을 비교하여 true가 도출되도록 한다.
+        const mockReturn = 'true';
         
-    // })
+    })
 })

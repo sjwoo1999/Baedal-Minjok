@@ -65,14 +65,29 @@ export class MenusRepository {
         return menu;
     }
 
-    updateMenu = async (restaurantId, menuId, updatedata) => {
+    updateMenu = async (restaurantId, menuId, name, price, menuInfo) => {
+        console.log(restaurantId, menuId, name, price, menuInfo);
+        const menus = await this.prisma.Menus.findMany({
+            where: {
+                restaurantId: +restaurantId
+            },
+            select: {
+                restaurantId: true,
+                name: true,
+                price: true,
+                image: true
+            }
+        })
+
+        console.log(menus);
+
         const updatedMenu = await this.prisma.Menus.update({
             where: {
                 id: +menuId,
                 restaurantId: +restaurantId
             },
             data: {
-                ...updatedata
+                name, price, menuInfo
             }
         });
 
