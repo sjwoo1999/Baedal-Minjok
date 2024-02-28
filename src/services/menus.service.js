@@ -22,7 +22,7 @@ export class MenusService {
         }
 
         const checkMenu = await this.menusRepository.findMenuByName(name);
-        if(checkMenu){
+        if (checkMenu) {
             throw new ValidationError('이미 존재하는 메뉴입니다.');
         }
 
@@ -62,8 +62,15 @@ export class MenusService {
             throw new ValidationError('자신의 식당의 메뉴만 작성할 수 있습니다.');
         }
 
+        if (updatedData.name) {
+            const checkMenu = await this.menusRepository.findMenuByName(updatedData.name);
+            if (checkMenu) {
+                throw new ValidationError('이미 존재하는 메뉴 이름입니다.');
+            }
+        }
+
         const menu = await this.menusRepository.findMenuByIds(restaurantId, menuId);
-        if(!menu){
+        if (!menu) {
             throw new NotFoundError('수정하려는 메뉴가 존재하지 않습니다.');
         }
 
@@ -80,7 +87,7 @@ export class MenusService {
         }
 
         const menu = await this.menusRepository.findMenuByIds(restaurantId, menuId);
-        if(!menu){
+        if (!menu) {
             throw new NotFoundError('삭제하려는 메뉴가 존재하지 않습니다.');
         }
 
