@@ -5,15 +5,14 @@ export class ReviewsServices {
         this.restaurantRepository = restaurantRepository;
     }
 
-    createReview = async (userId, restaurantId, content, rate) => {
-        const validation = await this.usersRepository.isGuest(userId);
-        if (!validation) {
-            throw { code: 400, message: '사장님은 리뷰를 작성할 수 없습니다!' };
-        }
+    createReview = async (id, restaurantId, content, rate) => {
+        // const validation = await this.usersRepository.isGuest(userId);
 
-        const review = await this.reviewsRepository.createReview(restaurantId, content, rate);
+        // if (!validation) {
+        //     throw { code: 400, message: '사장님은 리뷰를 작성할 수 없습니다!' };
+        // }
 
-        return review;
+        await this.reviewsRepository.createReview(id, restaurantId, content, rate);
     };
 
     findOneReview = async (restaurantId, reviewId) => {

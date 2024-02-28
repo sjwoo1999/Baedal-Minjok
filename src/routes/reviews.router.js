@@ -17,26 +17,18 @@ const authService = new AuthService(reviewsRepository);
 const authController = new AuthController(authService);
 
 /** 리뷰 생성 **/
-router.post('/restaurant/:restaurantId/review', authController.authMiddleWare, reviewsController.createReview);
+router.post('/:restaurantId/review', authController.authMiddleWare, reviewsController.createReview);
 
 /** 리뷰 리스트 조회 **/
-router.get('/restaurant/:restaurantId/review', authController.authMiddleWare, reviewsController.getReviewList);
+router.get('/:restaurantId/review', authController.authMiddleWare, reviewsController.getReviewList);
 
 /** 리뷰 세부사항 조회 **/
-router.get(
-    '/restaurant/:restaurantId/review/:reviewId',
-    authController.authMiddleWare,
-    reviewsController.getReviewDetail
-);
+router.get('/:restaurantId/review/:reviewId', authController.authMiddleWare, reviewsController.getReviewDetail);
 
 /** 리뷰 수정 **/
-router.patch(
-    '/restaurant/:restaurantId/review/:reviewId',
-    authController.authMiddleWare,
-    reviewsController.updateReview
-);
+router.patch('/:restaurantId/review/:reviewId', authController.authMiddleWare, reviewsController.updateReview);
 
 /** 리뷰 삭제 **/
-router.delete('/restaurant/:restaurantId/review', authController.authMiddleWare, reviewsController.deleteReview);
+router.delete('/:restaurantId/review', authController.authMiddleWare, reviewsController.deleteReview);
 
 export default router;

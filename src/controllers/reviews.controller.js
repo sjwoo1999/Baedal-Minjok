@@ -15,12 +15,7 @@ export class ReviewsController {
 
             const { restaurantId } = req.params;
             const { content, rate } = req.body;
-            const userId = req.user;
-            const type = req.type;
-
-            // 사용자가 존재하는지 확인한다.
-            // 아니라면 작업 중단.
-            if (!userId) return res.status(400).json({ message: '로그인 여부를 다시 확인해주세요.' });
+            const { id } = req.user;
 
             // 식당이 존재하는지 확인한다.
             // 아니라면 작업 중단.
@@ -28,17 +23,20 @@ export class ReviewsController {
 
             // 사용자가 고객님인지 확인한다.
             // 아니라면 작업 중단.
-            if (type !== 'GUEST') {
-                // 에러 코드 체크해봐야 한다.
-                return res.status(400).json({
-                    errMessage: '해당 작업을 수행할 권한이 없습니다!',
-                });
-            }
+
+            /* 사장도 댓글 달 수 있기 떄문에 굳이 필요 없을 듯? */
+
+            // if (type !== 'GUEST') {
+            //     // 에러 코드 체크해봐야 한다.
+            //     return res.status(400).json({
+            //         errMessage: '해당 작업을 수행할 권한이 없습니다!',
+            //     });
+            // }
 
             // reviewService로 나중에 바꿔줘야 하지 않을까?
             // 로직은 서비스에서 구현하도록 한다.
             // 서비스에서 구현한 함수를 호출할 수 있도록 한다.
-            const review = await this.reviewService.newReview(userId, restaurantId, content, rate);
+            await this.reviewService.createReview(id, restaurantId, content, rate);
 
             // 반환 코드 체크해야 한다.
             return res.status(201).json({ message: '리뷰가 정상적으로 등록되었습니다.' });

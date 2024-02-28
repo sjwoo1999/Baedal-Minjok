@@ -4,9 +4,10 @@ export class ReviewsRepositoriy {
         this.prisma = prisma;
     }
 
-    createReview = async (restaurantId, content, rate) => {
-        const review = await this.prisma.Reviews.create({
+    createReview = async (userId, restaurantId, content, rate) => {
+        await this.prisma.Reviews.create({
             data: {
+                userId: +userId,
                 restaurantId: +restaurantId,
                 content,
                 rate,
