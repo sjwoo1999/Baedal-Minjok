@@ -1,11 +1,11 @@
 export class RestaurantRepository {
     constructor(prisma) {
-      this.prisma = prisma;
+        this.prisma = prisma;
     }
 
     getRestaurantById = async (id) => {
         const restaurant = await this.prisma.Restaurants.findFirst({
-            where: {id: +id}, 
+            where: { id: +id },
             select: {
                 id: true,
                 name: true,
@@ -13,13 +13,10 @@ export class RestaurantRepository {
                 kind: true,
                 restaurantInfo: true,
                 sales: true,
-            }
-        })
-        if(!restaurant) {
-            throw {code:404, message:"해당 아이디를 가진 레스토랑이 조회되지 않습니다."};
-        }
+            },
+        });
         return restaurant;
-    }  
+    };
 
     getRestaurantsByKind = async (kind) => {
         const restaurants = await this.prisma.Restaurants.findMany({
@@ -31,70 +28,62 @@ export class RestaurantRepository {
                 kind: true,
                 callNumber: true,
             },
-        })
-        if(!restaurants) {
-            throw {code:404, message: "해당 카테고리의 식당이 존재하지 않습니다."};
-        }
+        });
         return restaurants;
-    }
+    };
 
-    
-
-    getRestaurantsBySearchTerm = async (searchTerm) => {
+    getRestaurantBySearch = async (value) => {
         const restaurants = await this.prisma.Restaurants.findMany({
             where: {
                 OR: [
                     {
                         name: {
-                            contains: searchTerm
-                        }
+                            contains: value,
+                        },
                     },
-                    {
-                        menus: {
-                            some: {
-                                OR: [
-                                    {
-                                        name: {
-                                            contains: searchTerm
-                                        }
-                                    },
-                                    {
-                                        menuInfo: {
-                                            contains: searchTerm
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                ]
+                    // {
+                    //     menus: {
+                    //         some: {
+                    //             OR: [
+                    //                 {
+                    //                     name: {
+                    //                         contains: value,
+                    //                     },
+                    //                 },
+                    //                 {
+                    //                     menuInfo: {
+                    //                         contains: value,
+                    //                     },
+                    //                 },
+                    //             ],
+                    //         },
+                    //     },
+                    // },
+                ],
             },
             select: {
                 name: true,
                 kind: true,
                 callNumber: true,
             },
-        })
-        if(!restaurants) {
-            throw {code:404, message: "해당 검색어를 포함하는 식당이 존재하지 않습니다."};
-        }
+        });
         return restaurants;
-    }
+    };
 
     compareUserAndRestaurant = async (ownerId, restaurantId) => {
         const restaurant = await this.prisma.Restaurants.findFirst({
             where: {
-                userId: +ownerId
+                userId: +ownerId,
             },
             select: {
                 id: true,
-            }
-        })
+            },
+        });
 
         if (restaurant === restaurantId) {
             return true;
         } else {
             return false;
         }
-    }
+    };
 }

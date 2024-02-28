@@ -5,7 +5,7 @@ import { MenusRepository } from '../repositories/menus.repository.js';
 import { prisma } from '../utils/prisma/index.js';
 import { AuthController } from '../middlewares/auth/auth.middleware.controller.js';
 import { AuthService } from '../middlewares/auth/auth.middleware.service.js';
-import { RestaurantRepository } from '../repositories/restaurant2.repository.js';
+import { RestaurantRepository } from '../repositories/restaurant.repository.js';
 import { UsersRepositories } from '../repositories/users.repositories.js';
 
 const router = express.Router();
