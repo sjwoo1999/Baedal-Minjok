@@ -91,8 +91,7 @@ export class OrderService {
 
         if (status === 'DELIVERED') {
             // 주문선택후 배달완료 업데이트
-            const point = await this.orderRepository.statusUpdateWithPoint(userId, orderId, status);
-            return point;
+            await this.orderRepository.statusUpdateWithPoint(userId, orderId, status);
         } else {
             const order = await this.orderRepository.statusUpdate(orderId, status);
         }

@@ -12,7 +12,7 @@ export class OwnerRepository {
     //     return isOwner.type === 'OWNER';
     // };
 
-    createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount, rate) => {
+    createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount) => {
         const restaurant = await this.prisma.Restaurants.create({
             data: {
                 userId: id,
@@ -21,8 +21,7 @@ export class OwnerRepository {
                 kind,
                 restaurantInfo,
                 sales: BigInt(sales),
-                orderCount,
-                rate: parseFloat(rate),
+                orderCount
             },
         });
         return restaurant;

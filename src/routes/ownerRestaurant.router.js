@@ -24,6 +24,7 @@ router.post('/restaurant', authController.authMiddleWare, ownerController.create
 // 레스토랑 수정
 router.patch('/restaurant/:restaurantId', authController.authMiddleWare, ownerController.updateRestaurant);
 
+// 레스토랑 삭제
 router.delete('/restaurant/:restaurantId', authController.authMiddleWare, ownerController.deleteRestaurant);
 
 export default router;
