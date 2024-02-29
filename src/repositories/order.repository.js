@@ -68,12 +68,10 @@ export class OrderRepository {
                 userId: +userId,
             },
         });
-        console.log('orders => @@@@@@@@@@@@', orders);
         return orders;
     };
 
     findOneOrderByOrderId = async (orderId) => {
-        console.log('orderId => ', orderId);
         const order = await this.prisma.orders.findFirst({
             where: {
                 id: +orderId,
@@ -98,26 +96,37 @@ export class OrderRepository {
 
             const updatePoint = point.point + parseFloat(order.totalPrice);
 
-            if (order.status === 'DELIVERED') {
-                await tx.orders.update({
-                    where: {
-                        id: +orderId,
-                    },
-                    data: {
-                        status: status,
-                    },
-                });
+            await tx.orders.update({
+                where: {
+                    id: +orderId,
+                },
+                data: {
+                    status: status,
+                },
+            });
 
-                await tx.points.update({
-                    where: {
-                        id: +point.id,
-                        userId: +userId,
-                    },
-                    data: {
-                        point: updatePoint,
-                    },
-                });
-            }
+            await tx.points.update({
+                where: {
+                    id: +point.id,
+                    userId: +userId,
+                },
+                data: {
+                    point: updatePoint,
+                },
+            });
+            return updatePoint;
+        });
+        return point;
+    };
+
+    statusUpdate = async (orderId, status) => {
+        await this.prisma.orders.update({
+            where: {
+                id: +orderId,
+            },
+            data: {
+                status,
+            },
         });
     };
 }
