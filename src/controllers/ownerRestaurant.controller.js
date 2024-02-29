@@ -7,18 +7,12 @@ export class OwnerController {
 
     createRestaurant = async (req, res, next) => {
         try {
-            const { name, callNumber, kind, restaurantInfo, sales, orderCount, rate } = req.body;
+            const { name, callNumber, kind, restaurantInfo, sales, orderCount } = req.body;
             const { id, type } = req.user;
-
-            // const isOwner = await this.ownerService.isOwner(id);
 
             if (!(type === 'OWNER')) {
                 throw new ValidationError('사장권한이 없습니다.');
             }
-
-            // if (!isOwner) {
-            //     return res.status(400).json({ message: '사장님만 가능한 기능입니다.' });
-            // }
 
             if (!name || !callNumber || !kind || !restaurantInfo) {
                 return res.status(400).json({ message: '모든 항목을 입력하세요.' });
@@ -31,8 +25,7 @@ export class OwnerController {
                 kind,
                 restaurantInfo,
                 sales,
-                orderCount,
-                rate
+                orderCount
             );
 
             return res.status(200).json({ message: '매장생성이 성공적으로 완료되었습니다.' });

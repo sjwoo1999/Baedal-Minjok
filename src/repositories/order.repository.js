@@ -116,7 +116,6 @@ export class OrderRepository {
             });
             return updatePoint;
         });
-        return point;
     };
 
     statusUpdate = async (orderId, status) => {
