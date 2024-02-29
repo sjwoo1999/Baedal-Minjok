@@ -5,9 +5,10 @@ export class OwnerController {
         this.ownerService = ownerService;
     }
 
+    // 레스토랑 생성
     createRestaurant = async (req, res, next) => {
         try {
-            const { name, callNumber, kind, restaurantInfo, sales, orderCount, rate } = req.body;
+            const { name, callNumber, kind, restaurantInfo, sales, orderCount } = req.body;
             const { id, type } = req.user;
 
             if (!(type === 'OWNER')) {
@@ -18,16 +19,7 @@ export class OwnerController {
                 return res.status(400).json({ errorMessage: '모든 항목을 입력하세요.' });
             }
 
-            await this.ownerService.createRestaurant(
-                id,
-                name,
-                callNumber,
-                kind,
-                restaurantInfo,
-                sales,
-                orderCount,
-                rate
-            );
+            await this.ownerService.createRestaurant(id, name, callNumber, kind, restaurantInfo, sales, orderCount);
 
             return res.status(200).json({ successMessage: '매장생성이 성공적으로 완료되었습니다.' });
         } catch (err) {
@@ -35,6 +27,7 @@ export class OwnerController {
         }
     };
 
+    // 레스토랑 수정
     updateRestaurant = async (req, res, next) => {
         try {
             const { restaurantId } = req.params;
@@ -62,6 +55,7 @@ export class OwnerController {
         }
     };
 
+    // 레스토랑 삭제
     deleteRestaurant = async (req, res, next) => {
         try {
             const { restaurantId } = req.params;

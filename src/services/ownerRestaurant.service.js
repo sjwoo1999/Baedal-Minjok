@@ -7,7 +7,7 @@ export class OwnerService {
     }
 
     // 레스토랑 생성
-    createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount, rate) => {
+    createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount) => {
         const isExistRestaurant = await this.restaurantRepository.findRestaurantByUserId(id);
 
         if (isExistRestaurant) {
@@ -20,8 +20,7 @@ export class OwnerService {
             kind,
             restaurantInfo,
             sales,
-            orderCount,
-            rate
+            orderCount
         );
         return restaurant;
     };

@@ -3,7 +3,7 @@ export class OwnerRepository {
         this.prisma = prisma;
     }
 
-    createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount, rate) => {
+    createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount) => {
         const restaurant = await this.prisma.Restaurants.create({
             data: {
                 userId: id,
@@ -13,7 +13,6 @@ export class OwnerRepository {
                 restaurantInfo,
                 sales: BigInt(sales),
                 orderCount,
-                rate: parseFloat(rate),
             },
         });
         return restaurant;
