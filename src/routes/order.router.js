@@ -33,6 +33,7 @@ router.get('/user', authController.authMiddleWare, orderController.guestGetOrder
 /* order 고객이나 사장이 특정 주문 확인 */
 router.get('/oneOrder/:orderId', authController.authMiddleWare, orderController.getOneOrder);
 
+// 주문 status 업데이트
 router.patch('/owner/:restaurantId/order/:orderId', authController.authMiddleWare, orderController.updateDelivery);
 
 export default router;

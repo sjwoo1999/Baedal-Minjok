@@ -3,15 +3,6 @@ export class OwnerRepository {
         this.prisma = prisma;
     }
 
-    // isOwner = async (ownerId) => {
-    //     const isOwner = await this.prisma.Users.findFirst({
-    //         where: { id: +ownerId },
-    //         select: { type: true },
-    //     });
-
-    //     return isOwner.type === 'OWNER';
-    // };
-
     createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount) => {
         const restaurant = await this.prisma.Restaurants.create({
             data: {
@@ -21,7 +12,7 @@ export class OwnerRepository {
                 kind,
                 restaurantInfo,
                 sales: BigInt(sales),
-                orderCount
+                orderCount,
             },
         });
         return restaurant;
@@ -35,7 +26,6 @@ export class OwnerRepository {
                 ...updateData,
             },
         });
-        console.log('수정 레포지토리 완료');
         return updateRestaurant;
     };
 

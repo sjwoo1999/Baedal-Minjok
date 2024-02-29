@@ -6,11 +6,7 @@ export class OwnerService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    // isOwner = async (ownerId) => {
-    //     const isOwner = await this.ownerRepository.isOwner(ownerId);
-    //     return isOwner;
-    // };
-
+    // 레스토랑 생성
     createRestaurant = async (id, name, callNumber, kind, restaurantInfo, sales, orderCount) => {
         const isExistRestaurant = await this.restaurantRepository.findRestaurantByUserId(id);
 
@@ -29,16 +25,19 @@ export class OwnerService {
         return restaurant;
     };
 
+    // 레스토랑 업데이트
     updateRestaurant = async (restaurantId, updateData) => {
         const updateRestaurant = await this.ownerRepository.updateRestaurant(restaurantId, updateData);
         return updateRestaurant;
     };
 
+    // 레스토랑 조회
     findRestaurantById = async (restaurantId) => {
         const restaurant = await this.ownerRepository.findRestaurantById(restaurantId);
         return restaurant;
     };
 
+    // 레스토랑 삭제
     deleteRestaurant = async (restaurantId) => {
         const deleteRestaurant = await this.ownerRepository.deleteRestaurant(restaurantId);
         return deleteRestaurant;

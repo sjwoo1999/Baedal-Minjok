@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { InconsistencyError, NotFoundError, ValidationError } from '../utils/err/err.js';
+import { InconsistencyError, NotFoundError, ValidationError, AlreadyExistsError } from '../utils/err/err.js';
 
 export class MenusService {
     constructor(menusRepository, usersRepository, restaurantRepository) {
@@ -8,6 +8,7 @@ export class MenusService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    // 메뉴 생성
     createMenu = async (userId, restaurantId, name, menuInfo, price, image) => {
         let validation = await this.restaurantRepository.findRestaurantByUserId(userId);
 
@@ -23,7 +24,7 @@ export class MenusService {
 
         const checkMenu = await this.menusRepository.findMenuByName(name);
         if (checkMenu) {
-            throw new ValidationError('이미 존재하는 메뉴입니다.');
+            throw new AlreadyExistsError('이미 존재하는 메뉴입니다.');
         }
 
         const menu = await this.menusRepository.createMenu(restaurantId, name, menuInfo, price, image);
@@ -31,6 +32,7 @@ export class MenusService {
         return menu;
     };
 
+    // 메뉴 전체 조회
     findAllMenus = async (restaurantId) => {
         const menus = await this.menusRepository.findMenusByRestaurantId(restaurantId);
 
@@ -41,6 +43,7 @@ export class MenusService {
         return menus;
     };
 
+    // 메뉴 상세조회
     findOneMenu = async (restaurantId, menuId) => {
         const menu = await this.menusRepository.findMenuByIds(restaurantId, menuId);
         if (!menu) {
@@ -49,6 +52,7 @@ export class MenusService {
         return menu;
     };
 
+    // 메뉴 업데이트
     updatedMenu = async (userId, restaurantId, menuId, updatedData) => {
         let validation = await this.restaurantRepository.findRestaurantByUserId(userId);
 
@@ -65,7 +69,7 @@ export class MenusService {
         if (updatedData.name) {
             const checkMenu = await this.menusRepository.findMenuByName(updatedData.name);
             if (checkMenu) {
-                throw new ValidationError('이미 존재하는 메뉴 이름입니다.');
+                throw new AlreadyExistsError('이미 존재하는 메뉴 이름입니다.');
             }
         }
 
@@ -77,6 +81,7 @@ export class MenusService {
         await this.menusRepository.updateMenu(restaurantId, menuId, updatedData);
     };
 
+    // 메뉴 삭제
     deleteMenu = async (userId, restaurantId, menuId, password) => {
         const user = await this.usersRepository.findById(userId);
 

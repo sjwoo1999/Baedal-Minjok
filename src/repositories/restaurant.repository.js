@@ -34,25 +34,22 @@ export class RestaurantRepository {
     getRestaurantsBySearch = async (value) => {
         const findMenus = await this.prisma.Menus.findMany({
             where: {
-                OR: [
-                    { name: { contains: value } },
-                    { menuInfo: { contains: value } },
-                ]
+                OR: [{ name: { contains: value } }, { menuInfo: { contains: value } }],
             },
             select: {
                 restaurantId: true,
-            }
+            },
         });
-    
-        const restaurantIds = findMenus.map(menu => menu.restaurantId);
+
+        const restaurantIds = findMenus.map((menu) => menu.restaurantId);
 
         const findRestaurants = await this.prisma.Restaurants.findMany({
             where: {
                 OR: [
                     { id: { in: restaurantIds } },
                     { name: { contains: value } },
-                    { restaurantInfo: {contains: value } },
-                ]
+                    { restaurantInfo: { contains: value } },
+                ],
             },
             select: {
                 name: true,
@@ -72,13 +69,12 @@ export class RestaurantRepository {
                 callNumber: true,
                 restaurantInfo: true,
             },
-            take:20
+            take: 20,
         });
         return restaurants;
-    }
+    };
 
     findRestaurantByUserId = async (ownerId) => {
-
         const restaurant = await this.prisma.Restaurants.findFirst({
             where: {
                 userId: +ownerId,
@@ -87,7 +83,6 @@ export class RestaurantRepository {
                 id: true,
             },
         });
-        console.log(restaurant);
         return restaurant;
     };
 }
