@@ -89,7 +89,12 @@ export class OrderService {
             throw new Error('본인의 식당이 아닙니다.');
         }
 
-        // 주문선택후 배달완료 업데이트
-        const order = await this.orderRepository.statusUpdateWithPoint(userId, orderId, status);
+        if (status === 'DELIVERED') {
+            // 주문선택후 배달완료 업데이트
+            const point = await this.orderRepository.statusUpdateWithPoint(userId, orderId, status);
+            return point;
+        } else {
+            const order = await this.orderRepository.statusUpdate(orderId, status);
+        }
     };
 }

@@ -107,10 +107,9 @@ export class OrderController {
                 return res.status(400).json({ message: '레스토랑 아이디를 작성하세요.' });
             }
 
-            console.log(restaurantId, '번호');
             await this.orderService.updateDelivered(id, restaurantId, orderId, status);
 
-            return res.status(200).json({ successMessage: '배달이 완료되었습니다.' });
+            return res.status(200).json({ successMessage: '업데이트 되었습니다.' });
         } catch (err) {
             next(err);
         }
