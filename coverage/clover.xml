@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1709133906638" clover="3.2.0">
+  <project timestamp="1709133906639" name="All files">
+    <metrics statements="19" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="6" elements="26" coveredelements="23" complexity="0" loc="19" ncloc="19" packages="1" files="1" classes="1"/>
+    <file name="menus.repository.js" path="C:\Users\박세연\OneDrive\바탕 화면\Baedal-Minjok\src\repositories\menus.repository.js">
+      <metrics statements="19" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="6"/>
+      <line num="3" count="1" type="stmt"/>
+      <line num="6" count="1" type="stmt"/>
+      <line num="7" count="1" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="19" count="1" type="stmt"/>
+      <line num="20" count="0" type="stmt"/>
+      <line num="25" count="0" type="stmt"/>
+      <line num="28" count="1" type="stmt"/>
+      <line num="29" count="1" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="45" count="1" type="stmt"/>
+      <line num="46" count="2" type="stmt"/>
+      <line num="60" count="2" type="stmt"/>
+      <line num="63" count="1" type="stmt"/>
+      <line num="65" count="1" type="stmt"/>
+      <line num="75" count="1" type="stmt"/>
+      <line num="78" count="1" type="stmt"/>
+      <line num="79" count="1" type="stmt"/>
+      <line num="86" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>
