@@ -3,6 +3,7 @@ export class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
+    // 레스토랑 상세조회
     getRestaurantById = async (req, res, next) => {
         try {
             const { id } = req.params;
@@ -19,6 +20,7 @@ export class RestaurantController {
         }
     };
 
+    // 레스토랑 카테고리조회
     getRestaurantsByKind = async (req, res, next) => {
         try {
             const { kind } = req.query;
@@ -49,6 +51,7 @@ export class RestaurantController {
         }
     };
 
+    // 레스토랑 조회
     getRestaurants = async (req, res, next) => {
         try {
             const restaurants = await this.restaurantService.getRestaurants();

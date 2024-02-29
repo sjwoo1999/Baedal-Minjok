@@ -91,19 +91,4 @@ export class UsersRepositories {
         });
         return user;
     };
-
-    // comparePassword = async (id, password) => {
-    //     const writtenPassword = password;
-    //     const originPassword = await this.prisma.Users.findFirst({
-    //         where: {
-    //             id: +id,
-    //         },
-    //         select: {
-    //             password: true,
-    //         },
-    //     });
-    //     const comparison = await bcrypt.compare(writtenPassword.password, originPassword.password);
-
-    //     return comparison;
-    // };
 }

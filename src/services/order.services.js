@@ -1,4 +1,4 @@
-import { NotFoundError, ValidationError } from '../utils/err/err.js';
+import { NotFoundError, ValidationError, InconsistencyError } from '../utils/err/err.js';
 export class OrderService {
     constructor(orderRepository, menusRepository, usersRepository, restaurantRepository) {
         this.orderRepository = orderRepository;
@@ -7,6 +7,7 @@ export class OrderService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    // 주문하기
     order = async (userId, restaurantId, deliveryType, status, item) => {
         try {
             // 각 메뉴의 가격을 비동기적으로 가져옵니다.
@@ -35,17 +36,17 @@ export class OrderService {
 
             // 포인트 결제
             await this.orderRepository.payPoint(userId, totPrice);
-            console.log('여기 들어옴@@@@############');
         } catch (error) {
             throw new Error(error.message);
         }
     };
 
+    // 주문 확인
     checkOrder = async (ownerId, restaurantId) => {
         const checkOwner = await this.restaurantRepository.findRestaurantByUserId(ownerId);
 
         if (checkOwner.id !== +restaurantId) {
-            throw new ValidationError('자신의 식당의 주문만 확인할 수 있습니다.');
+            throw new InconsistencyError('자신의 식당의 주문만 확인할 수 있습니다.');
         }
         const orders = await this.orderRepository.findOrdersByRestaurantId(restaurantId);
 
@@ -55,6 +56,7 @@ export class OrderService {
         return orders;
     };
 
+    // 주문 전체 조회
     findOrders = async (userId) => {
         const orders = await this.orderRepository.findOrdersByUserId(userId);
 
@@ -64,6 +66,7 @@ export class OrderService {
         return orders;
     };
 
+    // 주문 상세 조회
     findOneOrder = async (userId, orderId) => {
         const user = await this.usersRepository.findById(userId);
         const orderUser = await this.orderRepository.findOrdersByUserId(userId);
@@ -82,6 +85,7 @@ export class OrderService {
         return order;
     };
 
+    // 주문상태 업데이트
     updateDelivered = async (userId, restaurantId, orderId, status) => {
         const restaurant = await this.restaurantRepository.findRestaurantByUserId(userId);
 
@@ -91,10 +95,9 @@ export class OrderService {
 
         if (status === 'DELIVERED') {
             // 주문선택후 배달완료 업데이트
-            const point = await this.orderRepository.statusUpdateWithPoint(userId, orderId, status);
-            return point;
+            await this.orderRepository.statusUpdateWithPoint(userId, orderId, status);
         } else {
-            const order = await this.orderRepository.statusUpdate(orderId, status);
+            await this.orderRepository.statusUpdate(orderId, status);
         }
     };
 }

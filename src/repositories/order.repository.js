@@ -81,6 +81,7 @@ export class OrderRepository {
         return order;
     };
 
+    // 배달완료시 사장님 포인트 증가(트랜잭션)
     statusUpdateWithPoint = async (userId, orderId, status) => {
         await this.prisma.$transaction(async (tx) => {
             const order = await tx.orders.findFirst({
@@ -116,7 +117,6 @@ export class OrderRepository {
             });
             return updatePoint;
         });
-        return point;
     };
 
     statusUpdate = async (orderId, status) => {
